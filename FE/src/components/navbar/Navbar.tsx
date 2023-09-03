@@ -5,103 +5,110 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
 
 import ListItemText from '@mui/material/ListItemText';
-import { Box } from '@mui/material';
-import Toolbar from '@mui/material/Toolbar';
+import Box  from '@mui/material/Box';
 import styled from '@emotion/styled';
+import {useTheme} from '@mui/material/styles';
+import { ListItemButton } from '@mui/material';
+import { Link, useLocation } from 'react-router-dom';
 
-import { navitemdetail } from '../navbar/navitem';
-
-const Sidebar =styled(Drawer)({
-  width: 300,
-  height:'100vh',
-  flexShrink: 0,
-  [`& .MuiDrawer-paper`]: { 
-    width: 300 ,
-    backgroundColor:'#171719',
-    zIndex:0,
-  },   
-
+const ListText=styled(Typography)({
+  fontSize: '32px',
+  fontStyle: 'normal',
+  fontWeight: 700,
+  lineHeight: 'normal',
 })
 
-const SidebarItem = styled(ListItem)({
-  borderLeft:'solid #171719 20px',  
-    color:'White',
-      "&:hover":{     
-        backgroundColor:'#222226'
-      }   
-
+const AccountAvatar=styled(Avatar)({
+  height:'67px',
+  width:'67px',
+  marginRight:'16px',
 })
 
-const SidebarList=styled(List)({
-  marginTop:'30px'
-})
-
-const SidebarListText=styled(Typography)({
-  padding:'5px',
+const AccountText=styled(Typography)({
   fontWeight:700,
-  fontSize:'20px',
-  
-})
+  fontSize:'28px',
+  color: 'white',
+});
 
-const SidebarAccountBox=styled(Box)({  
+const CustomToolbar=styled(Box)({
   display:'flex',
-  marginTop:'220px'
-})
+  flexDirection: 'column',
+  justifyContent:'space-between',
+  height:'100%',
+  padding: '120px 0 50px 20px',
+});
 
-const SidebarAccountAvatar=styled(Avatar)({
- 
+const AccountBox=styled(Box)({
   display:'flex',
-  marginLeft:'30px'
-})
+  alignItems:'center',
+  padding:'0 0 0 20px'
+});
 
-const SidebarAccountText=styled(Typography)({
-  paddingTop:'5px',
-  fontWeight:700,
-  fontSize:'20px',
-  color:'white',  
-  marginLeft:'20px'
-  
-})
+const navitems=[
+  {label:'Play',route:'/play'},
+  {label:'Variants',route:'/variants'},
+  {label:'Puzzles',route:'/puzzles'},
+  {label:'Leaderboard',route:'/leaderboard'},
+  {label:'Friends',route:'/friends'},
+]
 
 const Navbar = () => {
+  const theme = useTheme();
+  const location = useLocation();
+
+  const SidebarItem = styled(ListItem)({
+
+      color:'White',
+        "&:hover":{     
+          backgroundColor:`${theme.palette.primary.light}`
+        }, 
+  })
+
   return (
-    <Sidebar
+    <Drawer
       PaperProps={{
         sx: {
-          background:'#171719',
-          border: '0px',          
+          background:`${theme.palette.primary.main}`,
+          border: '0px', 
+          width:'300px', 
+          zIndex: '0',        
         }}}
-        variant="permanent"
-        
-      >
-        <Toolbar />
-        
-        <SidebarList>
-            {navitemdetail.map((item, index) => (
-              <SidebarItem                
-                key={item.id}
-                // onClick={()=>navigate(item.route)}
-                > 
-                
-                  
-                  <ListItemText primary={<SidebarListText>{item.label}</SidebarListText>} />
-                  
-                
-              </SidebarItem>
+        variant="permanent" 
+    > 
+      <CustomToolbar>
+        <List sx={{padding:'0'}}>
+            {navitems.map((item, index) => (
+              <ListItemButton 
+                sx={{padding:'0'}}
+                component={Link}
+                to={item.route}
+                key={index}
+              >
+                <SidebarItem                
+                  key={index}
+                  className= {item.route===location.pathname? 'activeItem' : ''}
+                >  
+                  <ListItemText primary={
+                    <ListText>
+                      {item.label}
+                    </ListText>
+                  }/>
+                </SidebarItem>
+              </ListItemButton>
             ))}
-          </SidebarList>
-         
-         <SidebarAccountBox >
-         <SidebarAccountAvatar></SidebarAccountAvatar>
-         <SidebarAccountText variant="h6">
-            Name
-          </SidebarAccountText> 
-          </SidebarAccountBox>
+        </List>
+
+        <AccountBox>
+          <AccountAvatar></AccountAvatar>
+          <AccountText>
+           Name
+          </AccountText> 
+        </AccountBox>
+      </CustomToolbar>
         
-      </Sidebar> 
+    </Drawer> 
   )
 }
 
