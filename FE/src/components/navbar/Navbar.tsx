@@ -11,6 +11,7 @@ import Box  from '@mui/material/Box';
 import styled from '@emotion/styled';
 import {useTheme} from '@mui/material/styles';
 import { ListItemButton } from '@mui/material';
+import { Link, useLocation } from 'react-router-dom';
 
 const ListText=styled(Typography)({
   fontSize: '32px',
@@ -31,7 +32,7 @@ const AccountText=styled(Typography)({
   color: 'white',
 });
 
-const CustomToolbar=styled(Typography)({
+const CustomToolbar=styled(Box)({
   display:'flex',
   flexDirection: 'column',
   justifyContent:'space-between',
@@ -46,21 +47,23 @@ const AccountBox=styled(Box)({
 });
 
 const navitems=[
-  {label:'Play',route:'play'},
-  {label:'Variant',route:'variant'},
-  {label:'Puzzle',route:'puzzle'},
-  {label:'Leaderboard',route:'leaderboard'},
-  {label:'Friend',route:'friend'},
+  {label:'Play',route:'/play'},
+  {label:'Variants',route:'/variants'},
+  {label:'Puzzles',route:'/puzzles'},
+  {label:'Leaderboard',route:'/leaderboard'},
+  {label:'Friends',route:'/friends'},
 ]
 
 const Navbar = () => {
   const theme = useTheme();
+  const location = useLocation();
 
   const SidebarItem = styled(ListItem)({
+
       color:'White',
         "&:hover":{     
           backgroundColor:`${theme.palette.primary.light}`
-        }   
+        }, 
   })
 
   return (
@@ -77,12 +80,21 @@ const Navbar = () => {
       <CustomToolbar>
         <List sx={{padding:'0'}}>
             {navitems.map((item, index) => (
-              <ListItemButton sx={{padding:'0'}}>
+              <ListItemButton 
+                sx={{padding:'0'}}
+                component={Link}
+                to={item.route}
+                key={index}
+              >
                 <SidebarItem                
                   key={index}
-                  // onClick={()=>navigate(item.route)}
-                  >  
-                    <ListItemText primary={<ListText>{item.label}</ListText>} />
+                  className= {item.route===location.pathname? 'activeItem' : ''}
+                >  
+                  <ListItemText primary={
+                    <ListText>
+                      {item.label}
+                    </ListText>
+                  }/>
                 </SidebarItem>
               </ListItemButton>
             ))}
