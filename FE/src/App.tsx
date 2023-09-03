@@ -5,12 +5,10 @@ import Box from '@mui/material/Box';
 
 function App() {
   return (
-    <Box sx={{display:'flex'}}>
-      <h1>App</h1>
+    <>
       <Appbar/>
       <Navbar/>
-      </Box>
-    
+    </>
   );
 }
 

@@ -1,49 +1,40 @@
 import React from 'react'
 import AppBar from '@mui/material/AppBar';
-
-import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-
 import styled from '@emotion/styled';
-import { Height } from '@mui/icons-material';
-import { height } from '@mui/system';
 
 const Topbar = styled(AppBar)({
     zIndex: 1,
-    backgroundColor:'#171719',
-    height:'80px',
-    boxShadow:'none'
+    height:'120px',
+    boxShadow:'none',
+    padding: '32px 40px',
+    display:'flex',
+    flexDirection:'row',
+    justifyContent: 'space-between',
+    alignItems: 'center', 
 })
 
 const TopbarText = styled(Typography)({
-    flexGrow: 1 ,
     fontWeight:700,
-    fontSize:'32px',
-    paddingTop:'12px'
-
+    fontSize:'40px',
+    lineHeight:'47px',
 })
 
-const TopbarLogin = styled(Button)({
-    backgroundColor:'#222226',
+const Login = styled(Button)({
     border:'solid white 1px',
-    marginTop:'12px',
     width:'100px',
     height:'42px',
-    marginRight:'15px',
 })
 
 const Appbar = () => {
   return (
    <Topbar position="fixed">
-        <Toolbar>
-          <TopbarText variant="h6">
-            BetterChess
-          </TopbarText> 
-          <TopbarLogin  variant='contained'>Login</TopbarLogin>
-
-        </Toolbar>
-      </Topbar>
+      <TopbarText>
+        BetterChess
+      </TopbarText> 
+      <Login  variant='contained' color='secondary'>Login</Login>
+    </Topbar>
   )
 }
 
