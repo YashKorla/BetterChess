@@ -1,4 +1,5 @@
 import React from 'react';
+import ProfileInfo from './components/profileinfo/ProfileInfo';
 
 function App() {
   return (
