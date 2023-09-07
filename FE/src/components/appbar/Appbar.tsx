@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import styled from '@emotion/styled';
 
 const Topbar = styled(AppBar)({
-    zIndex: 1,
+    zIndex: 3,
     height:'120px',
     boxShadow:'none',
     padding: '32px 40px',

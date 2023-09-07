@@ -10,6 +10,13 @@ const theme = createTheme({
             main: "#222226",
             light: "#171719",
         }
+    },
+    typography:{
+        subtitle1: {
+            color: '#FFF',
+            fontSize: '20px',
+            fontWeight: 700,
+        },
     }
 });
 
