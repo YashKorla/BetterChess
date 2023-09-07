@@ -7,7 +7,7 @@ import Home from './pages/Home';
 import Play from './pages/Play';
 import Variants from './pages/Variants';
 import Puzzles from './pages/Puzzles';
-import Leaderboard from './pages/Leaderboard';
+import LeaderboardPage from './pages/LeaderboardPage';
 import Friends from './pages/Friends';
 import { styled } from '@mui/material';
 import bgimg from './images/bachground.png'
@@ -29,7 +29,7 @@ function App() {
             <Route path="/play" element={<Play/>}/>
             <Route path="/variants" element={<Variants/>}/>
             <Route path="/puzzles" element={<Puzzles/>}/>
-            <Route path="/leaderboard" element={<Leaderboard/>}/>
+            <Route path="/leaderboard" element={<LeaderboardPage/>}/>
             <Route path="/friends" element={<Friends/>}/>
           </Routes>
         </PageBox>
