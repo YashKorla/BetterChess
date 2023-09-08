@@ -26,3 +26,22 @@ code {
   border-top-right-radius:10px;
   border-bottom-right-radius:10px;
 }
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #222226;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #171719;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

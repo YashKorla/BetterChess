@@ -14,7 +14,6 @@ import {
   Paper,
   Button,
 } from "@mui/material";
-import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
 import { useTheme } from "@mui/material/styles";
 import { ternaryOperator } from "../../utils";
 
@@ -56,40 +55,55 @@ const Leaderboard = (props: LeaderboardProps) => {
   });
 
   const ViewAllButton = styled(Button)({
-    width:'213px',
+    width:'212px',
     height:'36px',  
     position:'absolute',
     bottom:'12px',
-    left:'576px',
     boxShadow: 'none',  
+    left:'419px',
+    [theme.breakpoints.up('laptop')]: {
+      left:'576px',
+    },
   });
 
   const ImgBox = styled(Box)({
-    height: "289px",
-    width: "286px",
     borderRadius: "10px",
     backgroundColor:`${theme.palette.primary.light}`,
+    height: "220px",
+    width: "220px",
+    [theme.breakpoints.up('laptop')]: {
+      height: "289px",
+      width: "286px",
+    },
   });
 
   const TableBox = styled(TableContainer)({
-    width: "674px",
     borderRadius: "10px",
     backgroundColor:`${theme.palette.primary.light}`,
     padding:'12px',
     overflow: 'hidden',
     height:`${isViewAll ? '' : '289px'}`,
+    width: "510px",
+    [theme.breakpoints.up('laptop')]: {
+      height:`${isViewAll ? '' : '289px'}`,
+      width: "674px",
+    },
   });
 
   const OuterBox = styled(Box)({
-    width: "1050px",
     borderRadius: "10px",
     display: "flex",
     justifyContent: "space-between",
     alignItems: 'flex-start',
-    padding: "30px",
     backgroundColor:`${theme.palette.primary.main}`,
     margin:'22px',
     position:'relative',
+    width: "800px",
+    padding: "20px",
+    [theme.breakpoints.up('laptop')]: {
+      width: "1050px",
+      padding: "30px",
+    },
   });
 
   const [page, setPage] = useState(0);

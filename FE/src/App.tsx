@@ -9,15 +9,20 @@ import Variants from './pages/Variants';
 import Puzzles from './pages/Puzzles';
 import LeaderboardPage from './pages/LeaderboardPage';
 import Friends from './pages/Friends';
-import { styled } from '@mui/material';
+import { styled, useTheme } from '@mui/material';
 import bgimg from './images/bachground.png'
 
-const PageBox=styled(Box)({
-  margin:'120px 0 0 300px',
-  backgroundImage:`require(${bgimg})`,
-});
-
 function App() {
+  const theme = useTheme();
+
+  const PageBox=styled(Box)({
+    backgroundImage:`require(${bgimg})`,
+    margin:'90px 0 0 230px',
+    [theme.breakpoints.up('laptop')]: {
+      margin: '120px 0 0 300px',
+    },
+  });
+
   return (
       <Box>
         <Appbar/>
