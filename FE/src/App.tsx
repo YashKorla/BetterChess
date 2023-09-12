@@ -11,6 +11,7 @@ import LeaderboardPage from './pages/LeaderboardPage';
 import Friends from './pages/Friends';
 import { styled, useTheme } from '@mui/material';
 import bgimg from './images/bachground.png'
+import MyAccount from './pages/MyAccount';
 
 function App() {
   const theme = useTheme();
@@ -36,6 +37,7 @@ function App() {
             <Route path="/puzzles" element={<Puzzles/>}/>
             <Route path="/leaderboard" element={<LeaderboardPage/>}/>
             <Route path="/friends" element={<Friends/>}/>
+            <Route path="/my-account" element={<MyAccount/>}/>
           </Routes>
         </PageBox>
       </Box>

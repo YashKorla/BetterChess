@@ -35,7 +35,7 @@ const theme = createTheme({
         values: {
             mobile: 480,
             tablet: 1024,
-            laptop: 1400,
+            laptop: 1800,
             desktop: 1600,
         },
     },
