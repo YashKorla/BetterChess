@@ -7,17 +7,23 @@ import Home from './pages/Home';
 import Play from './pages/Play';
 import Variants from './pages/Variants';
 import Puzzles from './pages/Puzzles';
-import Leaderboard from './pages/Leaderboard';
+import LeaderboardPage from './pages/LeaderboardPage';
 import Friends from './pages/Friends';
-import { styled } from '@mui/material';
+import { styled, useTheme } from '@mui/material';
 import bgimg from './images/bachground.png'
-
-const PageBox=styled(Box)({
-  margin:'120px 0 0 300px',
-  backgroundImage:`require(${bgimg})`,
-});
+import MyAccount from './pages/MyAccount';
 
 function App() {
+  const theme = useTheme();
+
+  const PageBox=styled(Box)({
+    backgroundImage:`require(${bgimg})`,
+    margin:'90px 0 0 230px',
+    [theme.breakpoints.up('laptop')]: {
+      margin: '120px 0 0 300px',
+    },
+  });
+
   return (
       <Box>
         <Appbar/>
@@ -29,8 +35,9 @@ function App() {
             <Route path="/play" element={<Play/>}/>
             <Route path="/variants" element={<Variants/>}/>
             <Route path="/puzzles" element={<Puzzles/>}/>
-            <Route path="/leaderboard" element={<Leaderboard/>}/>
+            <Route path="/leaderboard" element={<LeaderboardPage/>}/>
             <Route path="/friends" element={<Friends/>}/>
+            <Route path="/my-account" element={<MyAccount/>}/>
           </Routes>
         </PageBox>
       </Box>
