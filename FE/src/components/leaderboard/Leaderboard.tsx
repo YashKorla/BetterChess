@@ -25,10 +25,10 @@ const Leaderboard = (props: LeaderboardProps) => {
   const {format,userStandings, standings}=props;
 
   const user = userStandings.filter((item:any)=>{
-    return item.format==format
+    return item.format===format
   })
   const players = standings.filter((item:any)=>{
-    return item.title==format
+    return item.title===format
   })
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
