@@ -1,7 +1,7 @@
-import * as React from 'react';
+
 
 import Drawer from '@mui/material/Drawer';
-import Avatar from '@mui/material/Avatar';
+
 import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -12,6 +12,7 @@ import styled from '@emotion/styled';
 import {useTheme} from '@mui/material/styles';
 import { ListItemButton } from '@mui/material';
 import { Link, useLocation } from 'react-router-dom';
+import MenuBox from './MenuBox';
 
 const navitems=[
   {label:'Play',route:'/play'},
@@ -35,40 +36,22 @@ const Navbar = () => {
     },
   })
   
-  const AccountAvatar=styled(Avatar)({
-    height:'67px',
-    width:'67px',
-    marginRight:'16px',
-  })
   
-  const AccountText=styled(Typography)({
-    fontWeight:700,
-    fontSize:'24px',
-    color: 'white',
-    [theme.breakpoints.up('laptop')]: {
-      fontSize:'28px',
-    },
-  });
+  
+  
   
   const CustomToolbar=styled(Box)({
     display:'flex',
     flexDirection: 'column',
     justifyContent:'space-between',
     height:'100%',
-    padding: '90px 0 50px 15px',
+    padding: '90px 0 30px 15px',
     [theme.breakpoints.up('laptop')]: {
       padding: '120px 0 50px 20px',
     },
   });
   
-  const AccountBox=styled(Box)({
-    display:'flex',
-    alignItems:'center',
-    padding:'0 0 0 15px',
-    [theme.breakpoints.up('laptop')]: {
-      padding: '0 0 0 20px',
-    },
-  });
+ 
 
   const SidebarItem = styled(ListItem)({
       color:'White',
@@ -80,6 +63,9 @@ const Navbar = () => {
         paddingLeft: '20px',
       },
   })
+  
+
+
 
   return (
     <Drawer
@@ -88,7 +74,7 @@ const Navbar = () => {
           background:`${theme.palette.primary.main}`,
           zIndex: '0',        
           border: '0px', 
-          width:'230px', 
+          width:'270px', 
           [theme.breakpoints.up('laptop')]: {
             width: '300px',
           },
@@ -118,12 +104,16 @@ const Navbar = () => {
             ))}
         </List>
 
-        <AccountBox>
-          <AccountAvatar></AccountAvatar>
-          <AccountText>
-           Name
-          </AccountText> 
-        </AccountBox>
+      
+        <MenuBox></MenuBox>
+          
+        
+      
+          
+        
+      
+            
+        
       </CustomToolbar>
         
     </Drawer> 
