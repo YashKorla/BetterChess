@@ -1,10 +1,11 @@
 import chess
 import chess.variant
-from setup.fairystockfish_setup import create_fairystockfish_instance
+from .setup.fairystockfish_setup import create_fairystockfish_instance
 
 # stockfish.set_elo_rating(3000)
 
-def BaseChess(fen_string):
+
+def racing_king_chess(fen_string):
     board = chess.variant.RacingKingsBoard(chess960=True)
     moves = fen_string.split(" ")
     if fen_string.strip():  # Check if fen_string is not empty
@@ -21,10 +22,4 @@ def BaseChess(fen_string):
     return move
 
 
-print(BaseChess("h2g3 d1f2 g3f4 f2h1"))
-
-    
-
-
-
-
+# print(RacingKingsChess("h2g3 d1f2 g3f4 f2h1"))

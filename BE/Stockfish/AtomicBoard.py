@@ -1,10 +1,11 @@
 import chess
 import chess.variant
-from setup.fairystockfish_setup import create_fairystockfish_instance
+from .setup.fairystockfish_setup import create_fairystockfish_instance
 
 # stockfish.set_elo_rating(3000)
 
-def BaseChess(fen_string):
+
+def atomic_chess(fen_string):
     board = chess.variant.AtomicBoard()
     moves = fen_string.split(" ")
     if fen_string.strip():  # Check if fen_string is not empty
@@ -21,7 +22,4 @@ def BaseChess(fen_string):
     return move
 
 
-print(BaseChess("b1c3 c7c6 c3e4 d7d6"))
-
-
-
+# print(AtomicChess("b1c3 c7c6 c3e4 d7d6"))

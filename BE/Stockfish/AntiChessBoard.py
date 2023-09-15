@@ -1,13 +1,14 @@
 import chess
 import chess.variant
-from setup.fairystockfish_setup import create_fairystockfish_instance
+from .setup.fairystockfish_setup import create_fairystockfish_instance
 
 # stockfish.set_elo_rating(3000)
 
-def BaseChess(fen_string):
+
+def anti_chess(fen_string):
     board = chess.variant.AntichessBoard()
     moves = fen_string.split(" ")
-    
+
     if fen_string.strip():  # Check if fen_string is not empty
         moves = fen_string.split()
         for move in moves:
@@ -23,6 +24,4 @@ def BaseChess(fen_string):
     return move
 
 
-print(BaseChess("e2e3 b8c6 f1a6 b7a6"))
-
-
+# print(AntiChess("e2e3 b8c6 f1a6 b7a6"))
