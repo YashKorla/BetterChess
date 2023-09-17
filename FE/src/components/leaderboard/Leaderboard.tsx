@@ -218,7 +218,7 @@ const Leaderboard = (props: LeaderboardProps) => {
       <ViewAllButton 
         variant='contained' 
         color="primary"
-        onClick={()=>{setIsViewAll(!isViewAll)}}
+        onClick={()=>{setIsViewAll(!isViewAll);setPage(0)}}
       >
         {ternaryOperator(isViewAll,'View Less','View More')}
       </ViewAllButton>

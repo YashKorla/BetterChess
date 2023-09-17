@@ -30,6 +30,11 @@ const theme = createTheme({
             fontSize: '20px',
             fontWeight: 700,
         },
+        subtitle2:{
+            color: '#69696E',
+            fontSize: '16px',
+            fontWeight: '700',
+        }
     },
     breakpoints: {
         values: {

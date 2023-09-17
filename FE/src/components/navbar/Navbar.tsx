@@ -11,7 +11,7 @@ import Box  from '@mui/material/Box';
 import styled from '@emotion/styled';
 import {useTheme} from '@mui/material/styles';
 import { ListItemButton } from '@mui/material';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import MenuBox from './MenuBox';
 
 const navitems=[
@@ -84,23 +84,26 @@ const Navbar = () => {
       <CustomToolbar>
         <List sx={{padding:'0'}}>
             {navitems.map((item, index) => (
-              <ListItemButton 
-                sx={{padding:'0'}}
-                component={Link}
+              <NavLink
+              style={{textDecoration:'none'}}
                 to={item.route}
                 key={index}
               >
-                <SidebarItem                
-                  key={index}
-                  className= {item.route===location.pathname? 'activeItem' : ''}
-                >  
-                  <ListItemText primary={
-                    <ListText>
-                      {item.label}
-                    </ListText>
-                  }/>
-                </SidebarItem>
-              </ListItemButton>
+                {({isActive})=>{
+                  return(
+                    <SidebarItem                
+                      key={index}
+                      className= {isActive? 'activeItem' : ''}
+                    >  
+                      <ListItemText primary={
+                        <ListText>
+                          {item.label}
+                        </ListText>
+                      }/>
+                    </SidebarItem>
+                  )
+                }}
+              </NavLink>
             ))}
         </List>
 

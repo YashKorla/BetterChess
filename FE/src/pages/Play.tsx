@@ -3,8 +3,10 @@ import Typography from '@mui/material/Typography';
 import { Box } from '@mui/material';
 import styled from '@emotion/styled';
 import theme from '../theme';
-
 import { useTheme } from '@emotion/react';
+import { NavLink } from 'react-router-dom';
+
+const dummyDesc = 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Obcaecati itaque veritatis sed quibusdam a doloribus perferendis blanditiis, quidem in, quasi incidunt.'
 
 const FormatBox =styled(Box)({
     backgroundColor:`${theme.palette.primary.main}`,
@@ -49,17 +51,22 @@ const Play = ()=>{
     const theme= useTheme()
     return(
         <MainBox>
-            <FormatBox>
-                <FormatText>Online</FormatText>
-                <FormatDesc>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In consequat ornare elit, hendrerit gravida velit molestie luctus. Nunc semper neque.</FormatDesc>
-            </FormatBox>
+            <NavLink
+                style={{textDecoration:'none'}}
+                to={"/play/online"}
+            >
+                <FormatBox>
+                    <FormatText>Online</FormatText>
+                    <FormatDesc>{dummyDesc}</FormatDesc>
+                </FormatBox>
+            </NavLink>
             <FormatBox>
                 <FormatText>vs Computer</FormatText>
-                <FormatDesc>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In consequat ornare elit, hendrerit gravida velit molestie luctus. Nunc semper neque.</FormatDesc>
+                <FormatDesc>{dummyDesc}</FormatDesc>
             </FormatBox>
             <FormatBox>
                 <FormatText>vs AI</FormatText>
-                <FormatDesc>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In consequat ornare elit, hendrerit gravida velit molestie luctus. Nunc semper neque.</FormatDesc>
+                <FormatDesc>{dummyDesc}</FormatDesc>
             </FormatBox>
         </MainBox>
     )
