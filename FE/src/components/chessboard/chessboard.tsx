@@ -1,41 +1,48 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {Chess} from 'chess.ts';
 import { Chessboard } from 'react-chessboard';
 import { useState } from 'react';
-import { Square,Piece } from 'react-chessboard/dist/chessboard/types';
+import { Square,Piece,BoardOrientation } from 'react-chessboard/dist/chessboard/types';
 
+const chess = new Chess();
+
+const timer = ()=>{
+    return(
+        <></>
+    )
+}
 
 export const StandardBoard = ()=>{
+    const [position,setPosition] = useState(chess.fen());
+    const [orientation,setOrientation] = useState<BoardOrientation>("white");
 
-    
-    const chess = new Chess();
-    const [game,setGame] = useState(new Chess());
-
-    function safeGameMutate(modify: any){
-        setGame((g: any)=>{
-            const update = {...g}
-            modify(update)
-            return update;
-        })
+    const handleDrop = (source:Square,target:Square,piece:Piece)=>{
+        try {
+            chess.move({from:source,to:target});
+            console.warn(chess.fen());
+            setPosition(chess.fen());
+            console.error(chess.getComment());
+            // setOrientation((prevState: BoardOrientation)=>{
+            //     return prevState === "white" ? "black" : "white";
+            // });
+            return true;
+        } catch (error) {
+            return false;
+        }
+    }
+    const handleClick = (square:Square)=>{
+        console.log(square)
     }
 
-    function onDrop(source: any,target: any){
-        let move = null;
-        safeGameMutate((game:any)=>{
-          move = game.move({
-            from:source,
-            to: target,
-            promotion:'q'
-          })
-      })
-       return true;
-      }
-
     return(
+        <>
         <Chessboard
-            position={game.fen()}
-            onPieceDrop={onDrop}
+            position={position}
+            onPieceDrop={handleDrop}
             boardWidth={500}
+            boardOrientation={orientation}
+            onSquareClick={handleClick}
         />
+        </>
     )
 } 
