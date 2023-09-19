@@ -3,6 +3,7 @@ import Typography from '@mui/material/Typography';
 import { Box } from '@mui/material';
 import styled from '@emotion/styled';
 import theme from '../theme';
+import IconButton from '@mui/material/IconButton';
 import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRightOutlined';
 
 const FormatBox =styled(Box)({
@@ -17,6 +18,7 @@ const FormatBox =styled(Box)({
     display:'flex',
     flexDirection:'column',
     justifyContent: 'space-between',
+    
 
     [theme.breakpoints.up('laptop')]: {
         margin:'0px 0 30px 150px',
@@ -62,17 +64,17 @@ const IconStyled=styled(KeyboardArrowRightOutlinedIcon )({
     height:'40px',
     backgroundColor:`${theme.palette.primary.light}`,
     borderRadius:'80px'
-
-
 })
 const Puzzles = ()=>{
     return(
 
         <MainBox>
+
             <FormatBox>
                 <Box sx={{display:'flex',justifyContent: 'space-between',}}>
                 <FormatHeader>3 minutes</FormatHeader>
-                <IconStyled></IconStyled>
+                <IconButton><IconStyled/></IconButton>
+                
                 </Box>
                 <Formatbest>Best: 15</Formatbest>
                 <Formatdesc>Solve as many puzzles as possible in 3 mins!</Formatdesc>
@@ -80,7 +82,8 @@ const Puzzles = ()=>{
             <FormatBox>
                 <Box sx={{display:'flex',justifyContent: 'space-between',}}>
                     <FormatHeader>5 minutes</FormatHeader>
-                    <IconStyled></IconStyled>
+                    <IconButton><IconStyled/></IconButton>
+                    
                 </Box>
                 <Formatbest>Best: 30</Formatbest>
                 <Formatdesc>Solve as many puzzles as possible in 5 mins!</Formatdesc>
@@ -88,7 +91,8 @@ const Puzzles = ()=>{
             <FormatBox>
                 <Box sx={{display:'flex',justifyContent: 'space-between',}}>
                     <FormatHeader>Survival</FormatHeader>
-                    <IconStyled></IconStyled>
+                    <IconButton><IconStyled/></IconButton>
+                    
                 </Box>
                 <Formatbest>Best: 55</Formatbest>
                 <Formatdesc>3 mistakes and you lose!</Formatdesc>
