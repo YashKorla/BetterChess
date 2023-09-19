@@ -121,7 +121,7 @@ const Leaderboard = (props: LeaderboardProps) => {
   return (
     <OuterBox sx={{ display: "flex" }}>
       <ImgBox>
-        <Typography variant="subtitle1">Img</Typography>
+        <Typography variant="h3">Img</Typography>
       </ImgBox>
       <TableBox>
           <Box sx={{ width: '100%', overflow: 'hidden' }}>

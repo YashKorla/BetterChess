@@ -25,15 +25,25 @@ const theme = createTheme({
         }
     },
     typography:{
-        subtitle1: {
+        h2: {
+            color: '#FFF',
+            fontSize: '30px',
+            fontWeight: 700,
+        },
+        h3: {
             color: '#FFF',
             fontSize: '20px',
             fontWeight: 700,
         },
-        subtitle2:{
+        subtitle1:{
             color: '#69696E',
             fontSize: '16px',
             fontWeight: '700',
+        },
+        subtitle2:{
+            color:' #FFF',
+            fontSize: '15px',
+            fontWeight: 700,       
         }
     },
     breakpoints: {

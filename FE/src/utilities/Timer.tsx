@@ -1,26 +1,30 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Box, useTheme } from '@mui/material';
 import styled from '@emotion/styled';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import { useTimer } from 'react-timer-hook';
+import {useAppSelector } from '../app-state/hooks';
+import { ternaryOperator } from './../utils';
 
 const Timer = (props:any) => {
     const theme=useTheme();
-    const {avatar,name,rating,expiryTimestamp,timerState}=props;
+    const {avatar,name,rating,expiryTimestamp,player}=props;
     const timer = useTimer({ expiryTimestamp, autoStart:true, onExpire: () => console.warn('onExpire called') });
+    const timerState = ternaryOperator(
+        player==='white',
+        useAppSelector((state)=>{return state.game.gameState.isWhiteTimerRunning}),
+        useAppSelector((state)=>{return state.game.gameState.isBlackTimerRunning})
+        )
 
-    switch(timerState) {
-        case "start":
-            timer.start();
-            break;
-        case "pause":
-            timer.pause();
-            break;
-        case "resume":
+    useEffect(()=>{
+        if (timerState){
             timer.resume();
-            break;
-    }
+        }
+        else{
+            timer.pause()
+        }
+    },[timerState])
 
     const TimerBox=styled(Box)({
         width:'400px',
@@ -42,17 +46,19 @@ const Timer = (props:any) => {
                 justifyContent:'center',
                 alignItems: 'center',}}
             >
-                <Typography variant="subtitle1">{name}</Typography>
-                <Typography variant="subtitle2">({rating})</Typography>
+                <Typography variant="h3">{name}</Typography>
+                <Typography variant="subtitle1">({rating})</Typography>
             </Box>
             <Box sx={{
                 backgroundColor:`${theme.palette.primary.light}`,
                 width:'140px',
                 display:'flex',
                 justifyContent:'center',
+                alignItems: 'center',
                 borderRadius:'10px',}}
+                height={'90%'}
             >
-                <Typography variant="subtitle1">{timer.minutes}:{timer.seconds}</Typography>
+                <Typography variant="h3">{timer.minutes}:{timer.seconds}</Typography>
             </Box>
         </TimerBox>
     )

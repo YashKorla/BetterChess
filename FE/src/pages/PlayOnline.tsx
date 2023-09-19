@@ -11,7 +11,7 @@ const PlayOnline = () => {
 
     return (
     <>
-    <Typography variant={'subtitle1'}>Select time</Typography>
+    <Typography variant={'h3'}>Select time</Typography>
     <BottomNavigation
         showLabels
         value={time}

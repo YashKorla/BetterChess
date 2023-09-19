@@ -1,8 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 import userPreferencefReducer from './features/userPreferenceSlice'
+import gameReducer from './features/gameSlice'
 
 export const store = configureStore({
   reducer: {
+    game: gameReducer,
     userPreference: userPreferencefReducer,
   },
 });
