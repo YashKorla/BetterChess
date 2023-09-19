@@ -12,6 +12,8 @@ import FriendsPage from './pages/FriendsPage';
 import { styled, useTheme } from '@mui/material';
 import bgimg from './images/bachground.png'
 import MyAccount from './pages/MyAccount';
+import PlayOnline from './pages/PlayOnline';
+import StandardGame from './Games/StandardGame';
 
 function App() {
   const theme = useTheme();
@@ -33,12 +35,17 @@ function App() {
           {/* <img src={require('./images/bachground.png')}></img> */}
           <Routes>
             <Route path="/" element={<Home/>}/>
-            <Route path="/play" element={<Play/>}/>
+            <Route path="/play">
+              <Route path="" element={<Play/>}/>
+              <Route path="/play/online" element={<PlayOnline/>}/>
+              <Route path="/play/game" element={<StandardGame/>}/>
+            </Route>
             <Route path="/variants" element={<Variants/>}/>
             <Route path="/puzzles" element={<Puzzles/>}/>
             <Route path="/leaderboard" element={<LeaderboardPage/>}/>
             <Route path="/friends" element={<FriendsPage/>}/>
             <Route path="/my-account" element={<MyAccount/>}/>
+            <Route path="*" element={<h1>404 NOT FOUND</h1>}/>
           </Routes>
         </PageBox>
       </Box>

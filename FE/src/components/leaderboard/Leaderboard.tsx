@@ -25,10 +25,10 @@ const Leaderboard = (props: LeaderboardProps) => {
   const {format,userStandings, standings}=props;
 
   const user = userStandings.filter((item:any)=>{
-    return item.format==format
+    return item.format===format
   })
   const players = standings.filter((item:any)=>{
-    return item.title==format
+    return item.title===format
   })
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -121,7 +121,7 @@ const Leaderboard = (props: LeaderboardProps) => {
   return (
     <OuterBox sx={{ display: "flex" }}>
       <ImgBox>
-        <Typography variant="subtitle1">Img</Typography>
+        <Typography variant="h3">Img</Typography>
       </ImgBox>
       <TableBox>
           <Box sx={{ width: '100%', overflow: 'hidden' }}>
@@ -218,7 +218,7 @@ const Leaderboard = (props: LeaderboardProps) => {
       <ViewAllButton 
         variant='contained' 
         color="primary"
-        onClick={()=>{setIsViewAll(!isViewAll)}}
+        onClick={()=>{setIsViewAll(!isViewAll);setPage(0)}}
       >
         {ternaryOperator(isViewAll,'View Less','View More')}
       </ViewAllButton>
