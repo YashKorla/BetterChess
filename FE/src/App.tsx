@@ -7,17 +7,26 @@ import Home from './pages/Home';
 import Play from './pages/Play';
 import Variants from './pages/Variants';
 import Puzzles from './pages/Puzzles';
-import Leaderboard from './pages/Leaderboard';
-import Friends from './pages/Friends';
-import { styled } from '@mui/material';
+import LeaderboardPage from './pages/LeaderboardPage';
+import FriendsPage from './pages/FriendsPage';
+import { styled, useTheme } from '@mui/material';
 import bgimg from './images/bachground.png'
-
-const PageBox=styled(Box)({
-  margin:'120px 0 0 300px',
-  backgroundImage:`require(${bgimg})`,
-});
+import MyAccount from './pages/MyAccount';
+import PlayOnline from './pages/PlayOnline';
+import StandardGame from './Games/StandardGame';
 
 function App() {
+  const theme = useTheme();
+
+  const PageBox=styled(Box)({
+    backgroundImage:`require(${bgimg})`,
+    margin:'90px 0 0 270px',
+    [theme.breakpoints.up('laptop')]: {
+      margin: '120px 0 0 300px',
+      
+    },
+  });
+
   return (
       <Box>
         <Appbar/>
@@ -26,11 +35,17 @@ function App() {
           {/* <img src={require('./images/bachground.png')}></img> */}
           <Routes>
             <Route path="/" element={<Home/>}/>
-            <Route path="/play" element={<Play/>}/>
+            <Route path="/play">
+              <Route path="" element={<Play/>}/>
+              <Route path="/play/online" element={<PlayOnline/>}/>
+              <Route path="/play/game" element={<StandardGame/>}/>
+            </Route>
             <Route path="/variants" element={<Variants/>}/>
             <Route path="/puzzles" element={<Puzzles/>}/>
-            <Route path="/leaderboard" element={<Leaderboard/>}/>
-            <Route path="/friends" element={<Friends/>}/>
+            <Route path="/leaderboard" element={<LeaderboardPage/>}/>
+            <Route path="/friends" element={<FriendsPage/>}/>
+            <Route path="/my-account" element={<MyAccount/>}/>
+            <Route path="*" element={<h1>404 NOT FOUND</h1>}/>
           </Routes>
         </PageBox>
       </Box>

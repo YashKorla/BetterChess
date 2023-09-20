@@ -1,79 +1,110 @@
 import * as React from 'react';
-import { Box } from '@mui/material';
+import { Box, IconButton } from '@mui/material';
 import styled from '@emotion/styled';
 import Typography from '@mui/material/Typography'
 import { profileinfodetail } from './ProfileInfoData';
 import editlogo from '../../image/Profileinfoediticon.svg';
+import theme from '../../theme';
+import { profileinfotypes } from './ProfileInfoTypes';
 
 const ProfileInfoBox = styled(Box)({
-    height:'240px',
-    width:'817px',
+    height:'220px',
+    width:'700px',
     display:'flex',
     backgroundColor:' #171719',
-    marginTop:'100px',
-    marginLeft:'150px',
-    borderRadius:'20px'
-
+    marginTop:'30px',    
+    borderRadius:'20px',
+    [theme.breakpoints.up('laptop')]: {
+        height:'277px',
+        width:'817px',
+        marginTop:'44px',  
+    },
 })
 
 const ProfileInfoImage=styled(Box)({
     height:'180px',
-    width:'190px',
+    width:'180px',
     margin:'20px',
     borderRadius:'10px',
     backgroundColor:' #222226', 
-    padding:'10px'   
+    [theme.breakpoints.up('laptop')]: {
+        height:'190px',
+        width:'217px',         
+        margin:'30px',
+
+    },
 })
 
 
 const ProfileInfoHeader=styled(Typography)({
-    fontSize:'50px',
+    fontSize:'45px',
     fontWeight:700,
     color:'white',
-    paddingLeft :'10px',
-    paddingTop:'20px',
-    paddingBottom:'0px'
-    
+    padding:'20px 0 0 5px',
+    [theme.breakpoints.up('laptop')]: {
+        fontSize:'45px',
+        fontWeight:700,
+        padding:'30px 0 0 30px',
+    },
+
 })
 
 const ProfileInfoDesc=styled(Typography)({
-    fontSize:'20px',
+    fontSize:'18px',
     fontWeight:700,
     color:'#69696E',
-    paddingTop:'50px',
-    paddingLeft:'10px'
+    padding:'45px 0 0 10px',
+    [theme.breakpoints.up('laptop')]: {
+        fontSize:'20px',
+        fontWeight:700,
+        padding:'68px 0 0 18px',
+    },
+    
 })
 
-const ProfileinfoEdit=styled(Box)({
+const ProfileinfoEdit=styled(IconButton)({
     marginTop:'45px',
     position:'absolute',
-    right:'0px'
+    right:'20px',
+    maxHeight:'30px',
+    maxWidth:'30px',
+    [theme.breakpoints.up('laptop')]: {
+        marginTop:'56px',
+        right:'30px',
+    },
 })
 
 const RatingdisplayBox=styled(Box)({
     padding:'10px',
     backgroundColor:'#222226',
-    margin:'12px',
+    margin:'15px  20px 0 0',
     borderRadius:'20px',
-    height:'90px',
+    height:'100px',
     width:'140px',
-    color:'white'
+    color:'white',
+    [theme.breakpoints.up('laptop')]: {
+        margin:'17px 0 30px 0',
+        height:'130px',
+        width:'159px',
+        
+    },
+
 })
 
 
 interface props {
-    type:string;
-    rating:string;
+    format:string,
+    rating:string
     
 }
-const Ratingdisplay=({type,rating}:props)=>{
+const Ratingdisplay=({format,rating}:props)=>{
     return(
     
         <RatingdisplayBox>   
-            <Typography sx={{fontSize:'17px',display:'flex',justifyContent:'center'}}>
-                {type}
+            <Typography sx={{fontSize:'20px',display:'flex',justifyContent:'center'}}>
+                {format}
             </Typography>
-            <Typography sx={{fontSize:'44px',display:'flex',justifyContent:'center'}}>
+            <Typography sx={{fontSize:'40px',display:'flex',justifyContent:'center'}}>
                 {rating}
             </Typography>  
         </RatingdisplayBox>      
@@ -82,33 +113,33 @@ const Ratingdisplay=({type,rating}:props)=>{
 }
 
 
-const ProfileInfo = () => {
+const ProfileInfo = (props:profileinfotypes) => {
   return (
     <ProfileInfoBox>        
-        {
-            profileinfodetail.map((item,index)=>(
-              < Box key="item.id" sx={{display:'flex'}}>
+        < Box  sx={{display:'flex'}}>
                 
-                <ProfileInfoImage>{item.userImage}</ProfileInfoImage>
+                <ProfileInfoImage>{props.UserImage}</ProfileInfoImage>
                 <Box>
-                    <Box sx={{display:'flex',width:'550px',position:'relative'}}>
-                        <ProfileInfoHeader>{item.userName}</ProfileInfoHeader>
-                        <ProfileInfoDesc>{item.desc}</ProfileInfoDesc>
+                    <Box sx={{display:'flex',position:'relative'}}>
+                        <ProfileInfoHeader>{props.Username}</ProfileInfoHeader>
+                        <ProfileInfoDesc>{props.Desc}</ProfileInfoDesc>
                         <ProfileinfoEdit >
-                            <img src={editlogo} height='40px' width='40px'/>\
+                            <img src={editlogo} height={'30px'} width={'30px'}/>
                         </ProfileinfoEdit>  
                     </Box>
                     <Box sx={{display:'flex'}}>
-                        <Ratingdisplay type='Blitz' rating={item.rating.bltiz}></Ratingdisplay> 
-                        <Ratingdisplay type='Bullet' rating={item.rating.bullet}></Ratingdisplay>                    
-                        <Ratingdisplay type='Rapid' rating={item.rating.rapid}></Ratingdisplay>  
+                       
+                           
+                            <Ratingdisplay format='Bltiz' rating={props.Bltizrating}></Ratingdisplay>
+                            <Ratingdisplay format='Bullet' rating={props.Bulletrating}></Ratingdisplay>
+                            <Ratingdisplay format='Rapid' rating={props.Rapidrating}></Ratingdisplay>
+
                     </Box>
                      
                 </Box>
                 
               </Box>
-            ))
-        }
+         
         
     </ProfileInfoBox>
 

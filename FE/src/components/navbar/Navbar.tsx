@@ -1,7 +1,7 @@
-import * as React from 'react';
+
 
 import Drawer from '@mui/material/Drawer';
-import Avatar from '@mui/material/Avatar';
+
 import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -11,40 +11,8 @@ import Box  from '@mui/material/Box';
 import styled from '@emotion/styled';
 import {useTheme} from '@mui/material/styles';
 import { ListItemButton } from '@mui/material';
-import { Link, useLocation } from 'react-router-dom';
-
-const ListText=styled(Typography)({
-  fontSize: '32px',
-  fontStyle: 'normal',
-  fontWeight: 700,
-  lineHeight: 'normal',
-})
-
-const AccountAvatar=styled(Avatar)({
-  height:'67px',
-  width:'67px',
-  marginRight:'16px',
-})
-
-const AccountText=styled(Typography)({
-  fontWeight:700,
-  fontSize:'28px',
-  color: 'white',
-});
-
-const CustomToolbar=styled(Box)({
-  display:'flex',
-  flexDirection: 'column',
-  justifyContent:'space-between',
-  height:'100%',
-  padding: '120px 0 50px 20px',
-});
-
-const AccountBox=styled(Box)({
-  display:'flex',
-  alignItems:'center',
-  padding:'0 0 0 20px'
-});
+import { Link, NavLink, useLocation } from 'react-router-dom';
+import MenuBox from './MenuBox';
 
 const navitems=[
   {label:'Play',route:'/play'},
@@ -58,54 +26,97 @@ const Navbar = () => {
   const theme = useTheme();
   const location = useLocation();
 
-  const SidebarItem = styled(ListItem)({
+  const ListText=styled(Typography)({
+    fontSize: '24px',
+    fontStyle: 'normal',
+    fontWeight: 700,
+    lineHeight: 'normal',
+    [theme.breakpoints.up('laptop')]: {
+      fontSize:'32px',
+    },
+  })
+  
+  
+  
+  
+  
+  const CustomToolbar=styled(Box)({
+    display:'flex',
+    flexDirection: 'column',
+    justifyContent:'space-between',
+    height:'100%',
+    padding: '90px 0 30px 15px',
+    [theme.breakpoints.up('laptop')]: {
+      padding: '120px 0 50px 20px',
+    },
+  });
+  
+ 
 
+  const SidebarItem = styled(ListItem)({
       color:'White',
+      paddingLeft:'15px',
         "&:hover":{     
           backgroundColor:`${theme.palette.primary.light}`
         }, 
+      [theme.breakpoints.up('laptop')]: {
+        paddingLeft: '20px',
+      },
   })
+  
+
+
 
   return (
     <Drawer
       PaperProps={{
         sx: {
           background:`${theme.palette.primary.main}`,
-          border: '0px', 
-          width:'300px', 
           zIndex: '0',        
+          border: '0px', 
+          width:'270px', 
+          [theme.breakpoints.up('laptop')]: {
+            width: '300px',
+          },
         }}}
         variant="permanent" 
     > 
       <CustomToolbar>
         <List sx={{padding:'0'}}>
             {navitems.map((item, index) => (
-              <ListItemButton 
-                sx={{padding:'0'}}
-                component={Link}
+              <NavLink
+              style={{textDecoration:'none'}}
                 to={item.route}
                 key={index}
               >
-                <SidebarItem                
-                  key={index}
-                  className= {item.route===location.pathname? 'activeItem' : ''}
-                >  
-                  <ListItemText primary={
-                    <ListText>
-                      {item.label}
-                    </ListText>
-                  }/>
-                </SidebarItem>
-              </ListItemButton>
+                {({isActive})=>{
+                  return(
+                    <SidebarItem                
+                      key={index}
+                      className= {isActive? 'activeItem' : ''}
+                    >  
+                      <ListItemText primary={
+                        <ListText>
+                          {item.label}
+                        </ListText>
+                      }/>
+                    </SidebarItem>
+                  )
+                }}
+              </NavLink>
             ))}
         </List>
 
-        <AccountBox>
-          <AccountAvatar></AccountAvatar>
-          <AccountText>
-           Name
-          </AccountText> 
-        </AccountBox>
+      
+        <MenuBox></MenuBox>
+          
+        
+      
+          
+        
+      
+            
+        
       </CustomToolbar>
         
     </Drawer> 
