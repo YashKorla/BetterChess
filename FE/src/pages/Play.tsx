@@ -10,7 +10,7 @@ import { NavLink } from 'react-router-dom';
 
 const dummyDesc = 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Obcaecati itaque veritatis sed quibusdam a doloribus perferendis blanditiis, quidem in, quasi incidunt.'
 
-const FormatBox =styled(IconButton)({
+const FormatBox =styled(Box)({
     backgroundColor:`${theme.palette.primary.main}`,
     margin:'0px 0 30px 150px',
     padding:'20px',
