@@ -8,19 +8,16 @@ import GameControls from '../utilities/GameControls';
 import { useAppSelector } from '../app-state/hooks';
 import ResultModal from '../utilities/ResultModal';
 
-
-
-
-
 const StandardGame = () => {
     const location = useLocation()
     const time = new Date();
     time.setSeconds(time.getSeconds() + location.state*60);
     return (
         <Box sx={{padding:'30px',display:'flex',justifyContent:'center',alignItems:'center'}}>
-            <ResultModal/>
-            <Box sx={{marginRight:'100px'}}>
+            <Box sx={{position:'relative',marginRight:'100px'}}>
+                <ResultModal/>
                 <Timer 
+                    avatar=''
                     name="black"
                     rating={500}
                     expiryTimestamp={time}
@@ -35,6 +32,7 @@ const StandardGame = () => {
                 />
 
                 <Timer 
+                    avatar=''
                     name="black"
                     rating={500}
                     expiryTimestamp={time}
