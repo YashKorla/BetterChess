@@ -18,20 +18,21 @@ interface game {
         result:string,
     }
 }
+const startPosition = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1 ';
 const initialState:game = {
-  isLoading: false,
-  gameState:{
-    opponent:{
-        name:'',
-        rating:400,
-        color:'',
-    },
-    position: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1 ',
-    pgn: '',
-    isBlackTimerRunning: false,
-    isWhiteTimerRunning: true,
-    isGameOver: false,
-    result: 'draw' //If winner exists then color else draw,  example 'white'
+    isLoading: false,
+    gameState:{
+        opponent:{
+            name:'',
+            rating:400,
+            color:'',
+        },
+        position: startPosition,
+        pgn: '',
+        isBlackTimerRunning: false,
+        isWhiteTimerRunning: true,
+        isGameOver: false,
+        result: 'draw' //If winner exists then color else draw,  example 'white'
   }
 };
 
@@ -58,8 +59,11 @@ const gameSlice = createSlice({
             state.gameState.result=action.payload
             state.gameState.isGameOver=true;
         },
-        closeModal(state,action: PayloadAction<string>){
+        closeModal(state){
             state.gameState.isGameOver=false;
+        },
+        resetState(state){
+            state=initialState;
         }
     }
 })

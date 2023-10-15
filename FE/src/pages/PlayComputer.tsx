@@ -4,28 +4,28 @@ import { BottomNavigation, BottomNavigationAction, Button } from '@mui/material'
 import { NavLink } from 'react-router-dom';
 import { useState } from 'react';
 
-const PlayOnline = () => {
+const PlayComputer = () => {
 
-    const [time,setTime]=useState(5);
+    const [depth,setDepth]=useState(2);
 
 
     return (
     <>
-    <Typography variant={'h3'}>Select time</Typography>
+    <Typography variant={'h3'}>Select Difficulty</Typography>
     <BottomNavigation
         showLabels
-        value={time}
+        value={depth}
         onChange={(event, newValue) => {
-            setTime(newValue);
+            setDepth(newValue);
         }}
     >
-        <BottomNavigationAction label="5min" value={5} />
-        <BottomNavigationAction label="10min" value={10}/>
-        <BottomNavigationAction label="15min" value={15}/>
+        <BottomNavigationAction label="Easy" value={2} />
+        <BottomNavigationAction label="Medium" value={5}/>
+        <BottomNavigationAction label="Hard" value={8}/>
     </BottomNavigation>
     <NavLink
-    to='/play/online/game'
-    state={time}
+    to='/play/computer/game'
+    state={depth}
     >
         <Button color='secondary' variant='contained'>Play</Button>
     </NavLink>
@@ -33,4 +33,4 @@ const PlayOnline = () => {
   )
 }
 
-export default PlayOnline
+export default PlayComputer

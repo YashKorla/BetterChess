@@ -1,7 +1,7 @@
 import React from 'react'
 import Typography from '@mui/material/Typography';
 import { useLocation } from 'react-router-dom';
-import { StandardBoard } from '../components/chessboard/chessboard';
+import StandardOnlineBoard from '../components/chessboards/StandardOnlineBoard';
 import { Box, Modal } from '@mui/material';
 import Timer from '../utilities/Timer';
 import GameControls from '../utilities/GameControls';
@@ -24,7 +24,7 @@ const StandardGame = () => {
                     player='black'
                 /> 
                     
-                <StandardBoard 
+                <StandardOnlineBoard 
                     expiryTimestamp={time}
                     opponent="opp name"
                     opponentRating={1400}

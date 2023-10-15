@@ -5,8 +5,9 @@ import { useAppDispatch,useAppSelector } from '../../app-state/hooks';
 import { setGameState } from '../../app-state/features/gameSlice';
 import {Chess} from 'chess.js'
 import { useState } from 'react';
-import { ternaryOperator } from '../../utils';
+import Engine from '../../Engine';
 
+const engine = new Engine();
 const chess = new Chess();
 let gameOver = false;
 let result = ''
@@ -16,13 +17,42 @@ let targetSquare='';
 
 const boardWidth = window.innerHeight*80*75/10000;
 
-export const StandardBoard = (props:any)=>{
-    
+const StandardBotBoard = (props:any)=>{
     const dispatch = useAppDispatch();
     const position = useAppSelector((state)=>{
         return state.game.gameState.position
     })
     const [optionSquares,setOptionSquares]=useState({})
+
+    function findBestMove() {
+        engine.evaluatePosition(chess.fen(), props.depth);
+    
+        engine.onMessage(({ bestMove }) => {
+        if (bestMove) {
+            try{
+                chess.move(bestMove);
+                if(chess.isGameOver()){
+                    gameOver = true;
+                    if(chess.isThreefoldRepetition() || chess.isStalemate() || chess.isInsufficientMaterial()){
+                        result='draw';
+                    }
+                    if(chess.isCheckmate()){
+                        chess.turn()==='b'? result='white' : result='black';
+                    }
+                }
+                dispatch(setGameState({
+                    position:chess.fen(),
+                    pgn: chess.pgn(),
+                    isGameOver: gameOver,
+                    result: result
+                }))
+                return true;
+            }catch(e){ 
+                return false;
+            }
+        }
+        });
+    }
 
     const handleDrop = (source:Square,target:Square,piece:Piece)=>{
         setOptionSquares({})
@@ -43,6 +73,9 @@ export const StandardBoard = (props:any)=>{
                 isGameOver: gameOver,
                 result: result
             }))
+            setTimeout(() => {
+                findBestMove();
+            }, 1000);
             return true;
         }catch(e){ 
             return false;
@@ -67,6 +100,9 @@ export const StandardBoard = (props:any)=>{
                 isGameOver: gameOver,
                 result: result
             }))
+            setTimeout(() => {
+                findBestMove();
+            }, 1000);
             return true;
         }catch(e){ 
         }
@@ -97,3 +133,5 @@ export const StandardBoard = (props:any)=>{
         />
     )
 } 
+
+export default StandardBotBoard;

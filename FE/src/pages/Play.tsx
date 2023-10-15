@@ -68,10 +68,15 @@ const Play = ()=>{
                     <FormatDesc>{dummyDesc}</FormatDesc>
                 </FormatBox>
             </NavLink>
-            <FormatBox>
-                <FormatText>vs Computer</FormatText>
-                <FormatDesc>{dummyDesc}</FormatDesc>
-            </FormatBox>
+            <NavLink
+                style={{textDecoration:'none'}}
+                to={"/play/computer"}
+            >
+                <FormatBox>
+                    <FormatText>vs Computer</FormatText>
+                    <FormatDesc>{dummyDesc}</FormatDesc>
+                </FormatBox>
+            </NavLink>
             <FormatBox>
                 <FormatText>vs AI</FormatText>
                 <FormatDesc>{dummyDesc}</FormatDesc>

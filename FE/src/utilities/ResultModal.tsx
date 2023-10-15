@@ -13,7 +13,7 @@ const ResultModal = () => {
         return state.game.gameState.result
     })
     const handleClose = () => {
-        dispatch(closeModal('close'))
+        dispatch(closeModal())
     }
     return (
             <Box sx={{
