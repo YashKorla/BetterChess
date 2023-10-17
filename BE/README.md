@@ -22,10 +22,12 @@
 ### How to run
 - Clone the project
 - To run the frontend
+  - Open a new terminal
   - Give the command: cd FE // FE is case-sensitive  
   - Give the command: npm install // this will install all the dependencies
-  - Give the command: npm start
+  - Give the command: npm start // this will start the frontend application
 - Backend
+  - Open a new terminal
   - Give the command: cd BE // BE is case-sensitive
-  - Give the command: npm install
-  - Give the command: nodemon server.js
+  - Give the command: npm install // this will install all the dependencies
+  - Give the command: nodemon server.js // this will start the backend server
