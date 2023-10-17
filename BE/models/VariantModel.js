@@ -1,4 +1,0 @@
-/**
- * vid
- * variant name
- */
