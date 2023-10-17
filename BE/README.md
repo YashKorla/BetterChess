@@ -29,5 +29,8 @@
 - Backend
   - Open a new terminal
   - Give the command: cd BE // BE is case-sensitive
+  - Create a .env file inside the BE folder, add the following 2 parameters:
+    - MONGODB_URI = "MONGODB URI" // MONGODB_URI is case-sensitive
+    - PORT = 8080 // PORT is case-sensitive
   - Give the command: npm install // this will install all the dependencies
   - Give the command: nodemon server.js // this will start the backend server
