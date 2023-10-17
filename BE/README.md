@@ -12,7 +12,9 @@
   - ReactJS
   - Material UI
   - Redux
+  - Chess.js
+  - Stockfish.js
 - Backend
-  - Django
-  - Aritificial Intelligence in Python
-  - Postgres
+  - Node.js
+  - Express.js
+  - MongoDB
