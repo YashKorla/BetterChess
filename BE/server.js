@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const http = require("http");
+const { Server } = require("socket.io");
 const gameRouter = require("./routes/games.routes");
 const userRouter = require("./routes/users.routes");
 
@@ -24,7 +26,31 @@ connection.once("open", (err) => {
 app.use("/users", userRouter);
 app.use("/games", gameRouter);
 
-app.listen(port, (err) => {
+const server = http.createServer(app);
+
+const io = new Server(server, {
+	cors: {
+		origin: "https://localhost:3000",
+		method: ["GET", "POST"],
+	},
+});
+
+let color = "";
+io.on("connection", (socket) => {
+	socket.on("create_game", (data) => {
+		if (color === "") {
+			color = data.color;
+			socket.emit("join_room", data.color);
+		}
+		socket.join(data.room);
+	});
+
+	socket.on("send_move", (data) => {
+		socket.to(data.room).emit("receive_move", data.move);
+	});
+});
+
+server.listen(port, (err) => {
 	if (err) throw err;
 	console.log(`Listening on port ${port}`);
 });
