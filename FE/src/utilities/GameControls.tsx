@@ -13,7 +13,7 @@ const GameControls = () => {
     const dispatch = useAppDispatch()
     
     const OuterBox=styled(Box)({
-        width:'415px',
+        width:'415px',   
         height:`${height}px`,
         padding:'20px',
         backgroundColor:theme.palette.primary.dark,
