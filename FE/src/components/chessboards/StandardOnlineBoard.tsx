@@ -1,33 +1,61 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Chessboard } from 'react-chessboard';
-import { Square,Piece,BoardOrientation } from 'react-chessboard/dist/chessboard/types';
+import { Square,Piece } from 'react-chessboard/dist/chessboard/types';
 import { useAppDispatch,useAppSelector } from '../../app-state/hooks';
 import { setGameState } from '../../app-state/features/gameSlice';
 import {Chess} from 'chess.js'
 import { useState } from 'react';
-import { ternaryOperator } from '../../utils';
+import { socket } from '../../socket';
+
+
 
 const chess = new Chess();
 let gameOver = false;
 let result = ''
 let sourceSquare = '';
-let targetSquare='';
 
 
 const boardWidth = window.innerHeight*80*75/10000;
 
 const StandardOnlineBoard = (props:any)=>{
     
+    const sendMove = (move:any)=>{
+        socket.emit('send_move',{move:move, room: props.room});
+    }
     const dispatch = useAppDispatch();
     const position = useAppSelector((state)=>{
         return state.game.gameState.position
     })
     const [optionSquares,setOptionSquares]=useState({})
 
+    useEffect(()=>{
+        socket.on('recieve_move',(move)=>{
+            try{
+                chess.move(move);
+                if(chess.isGameOver()){
+                    gameOver = true;
+                    if(chess.isThreefoldRepetition() || chess.isStalemate() || chess.isInsufficientMaterial()){
+                        result='draw';
+                    }
+                    if(chess.isCheckmate()){
+                        chess.turn()==='b'? result='white' : result='black';
+                    }
+                }
+                dispatch(setGameState({
+                    position:chess.fen(),
+                    pgn: chess.pgn(),
+                    isGameOver: gameOver,
+                    result: result
+                }))
+            }catch(error){}
+            
+        })
+    },[socket])
+
     const handleDrop = (source:Square,target:Square,piece:Piece)=>{
         setOptionSquares({})
         try{
-            chess.move({from:source,to: target});
+            const move = chess.move({from:source,to: target});
             if(chess.isGameOver()){
                 gameOver = true;
                 if(chess.isThreefoldRepetition() || chess.isStalemate() || chess.isInsufficientMaterial()){
@@ -43,6 +71,7 @@ const StandardOnlineBoard = (props:any)=>{
                 isGameOver: gameOver,
                 result: result
             }))
+            sendMove(move);
             return true;
         }catch(e){ 
             return false;
@@ -94,6 +123,7 @@ const StandardOnlineBoard = (props:any)=>{
             customSquareStyles={{...optionSquares}}
             animationDuration={100}
             arePremovesAllowed={true}
+            boardOrientation={props.color}
         />
     )
 } 
