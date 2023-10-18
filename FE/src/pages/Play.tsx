@@ -10,7 +10,7 @@ import { NavLink } from 'react-router-dom';
 
 const dummyDesc = 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Obcaecati itaque veritatis sed quibusdam a doloribus perferendis blanditiis, quidem in, quasi incidunt.'
 
-const FormatBox =styled(IconButton)({
+const FormatBox =styled(Box)({
     backgroundColor:`${theme.palette.primary.main}`,
     margin:'0px 0 30px 150px',
     padding:'20px',
@@ -68,10 +68,15 @@ const Play = ()=>{
                     <FormatDesc>{dummyDesc}</FormatDesc>
                 </FormatBox>
             </NavLink>
-            <FormatBox>
-                <FormatText>vs Computer</FormatText>
-                <FormatDesc>{dummyDesc}</FormatDesc>
-            </FormatBox>
+            <NavLink
+                style={{textDecoration:'none'}}
+                to={"/play/computer"}
+            >
+                <FormatBox>
+                    <FormatText>vs Computer</FormatText>
+                    <FormatDesc>{dummyDesc}</FormatDesc>
+                </FormatBox>
+            </NavLink>
             <FormatBox>
                 <FormatText>vs AI</FormatText>
                 <FormatDesc>{dummyDesc}</FormatDesc>

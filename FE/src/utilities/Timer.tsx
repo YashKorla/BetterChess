@@ -4,13 +4,23 @@ import styled from '@emotion/styled';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import { useTimer } from 'react-timer-hook';
-import {useAppSelector } from '../app-state/hooks';
+import {useAppDispatch, useAppSelector } from '../app-state/hooks';
 import { ternaryOperator } from './../utils';
+import { setWinner } from '../app-state/features/gameSlice';
 
-const Timer = (props:any) => {
+interface timerProps {
+    avatar: any,
+    name:string,
+    rating:number,
+    expiryTimestamp: Date,
+    player:string,
+}
+
+const Timer = (props:timerProps) => {
+    const dispatch = useAppDispatch()
     const theme=useTheme();
     const {avatar,name,rating,expiryTimestamp,player}=props;
-    const timer = useTimer({ expiryTimestamp, autoStart:true, onExpire: () => console.warn('onExpire called') });
+    const timer = useTimer({ expiryTimestamp, autoStart:true, onExpire: () => {dispatch(setWinner(player))} });
     const timerState = ternaryOperator(
         player==='white',
         useAppSelector((state)=>{return state.game.gameState.isWhiteTimerRunning}),

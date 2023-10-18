@@ -13,7 +13,9 @@ import { styled, useTheme } from '@mui/material';
 import bgimg from './images/bachground.png'
 import MyAccount from './pages/MyAccount';
 import PlayOnline from './pages/PlayOnline';
+import PlayComputer from './pages/PlayComputer';
 import StandardGame from './Games/StandardGame';
+import StandardBotGame from './Games/StandardBotGame';
 
 function App() {
   const theme = useTheme();
@@ -38,7 +40,9 @@ function App() {
             <Route path="/play">
               <Route path="" element={<Play/>}/>
               <Route path="/play/online" element={<PlayOnline/>}/>
-              <Route path="/play/game" element={<StandardGame/>}/>
+              <Route path="/play/computer" element={<PlayComputer/>}/>
+              <Route path="/play/online/game" element={<StandardGame/>}/>
+              <Route path="/play/computer/game" element={<StandardBotGame/>}/>
             </Route>
             <Route path="/variants" element={<Variants/>}/>
             <Route path="/puzzles" element={<Puzzles/>}/>

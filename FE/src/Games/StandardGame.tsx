@@ -1,13 +1,12 @@
 import React from 'react'
 import Typography from '@mui/material/Typography';
 import { useLocation } from 'react-router-dom';
-import { StandardBoard } from '../components/chessboard/chessboard';
-import { Box } from '@mui/material';
+import StandardOnlineBoard from '../components/chessboards/StandardOnlineBoard';
+import { Box, Modal } from '@mui/material';
 import Timer from '../utilities/Timer';
 import GameControls from '../utilities/GameControls';
-
-const boardWidth = window.innerHeight*80*75/10000;
-console.log(boardWidth);
+import { useAppSelector } from '../app-state/hooks';
+import ResultModal from '../utilities/ResultModal';
 
 const StandardGame = () => {
     const location = useLocation()
@@ -15,15 +14,17 @@ const StandardGame = () => {
     time.setSeconds(time.getSeconds() + location.state*60);
     return (
         <Box sx={{padding:'30px',display:'flex',justifyContent:'center',alignItems:'center'}}>
-            <Box sx={{marginRight:'100px'}}>
+            <Box sx={{position:'relative',marginRight:'100px'}}>
+                <ResultModal/>
                 <Timer 
+                    avatar=''
                     name="black"
                     rating={500}
                     expiryTimestamp={time}
                     player='black'
                 /> 
                     
-                <StandardBoard 
+                <StandardOnlineBoard 
                     expiryTimestamp={time}
                     opponent="opp name"
                     opponentRating={1400}
@@ -31,6 +32,7 @@ const StandardGame = () => {
                 />
 
                 <Timer 
+                    avatar=''
                     name="black"
                     rating={500}
                     expiryTimestamp={time}

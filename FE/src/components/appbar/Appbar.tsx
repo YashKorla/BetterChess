@@ -3,9 +3,19 @@ import AppBar from '@mui/material/AppBar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import styled from '@emotion/styled';
-import { useTheme } from '@mui/material';
+import { Modal, useTheme } from '@mui/material';
+import Loginmodal from '../../utilities/Loginmodal';
+import { useState } from 'react';
+
+
+
 
 const Appbar = () => {
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  
+
   const theme = useTheme()
 
   const Topbar = styled(AppBar)({
@@ -40,12 +50,20 @@ const Appbar = () => {
 
 
   return (
+    <div>
    <Topbar position="fixed">
       <TopbarText>
         BetterChess
       </TopbarText> 
-      <Login  variant='contained' color='secondary'>Login</Login>
+      <Login  variant='contained' color='secondary' onClick={handleOpen} >Login</Login>
     </Topbar>
+    <Modal
+      open={open}
+      onClose={handleClose}
+    >
+      <Loginmodal></Loginmodal>
+    </Modal>
+    </div>
   )
 }
 
