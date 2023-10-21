@@ -1,0 +1,19 @@
+{
+  "name": "betterchess",
+  "version": "1.0.0",
+  "description": "- A chess website which combines the best features from multiple chess websites with a fresh user interface.\r - Play versus a friend or a random person.\r - Practice against an AI and challenge it when ready!\r - Play different fun variants.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mongoose": "^7.5.3",
+    "nodemon": "^3.0.1",
+    "socket.io": "^4.7.2"
+  }
+}
