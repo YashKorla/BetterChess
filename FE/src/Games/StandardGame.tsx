@@ -10,20 +10,10 @@ import ResultModal from "../utilities/ResultModal";
 import { socket } from "../socket";
 
 const StandardGame = () => {
-	const [player, setPlayer] = useState("");
 	const location = useLocation();
 	const time = new Date();
 	time.setSeconds(time.getSeconds() + location.state.time * 60);
 	const opponent = location.state.color === "white" ? "black" : "white";
-
-	socket.on("join_room", (data) => {
-		console.log(data);
-		if (data === "white") {
-			location.state.color = "black";
-		} else {
-			location.state.color = "white";
-		}
-	});
 
 	return (
 		<Box
@@ -45,9 +35,6 @@ const StandardGame = () => {
 				/>
 
 				<StandardOnlineBoard
-					expiryTimestamp={time}
-					opponent="opp name"
-					opponentRating={1400}
 					color={location.state.color}
 					room={location.state.room}
 				/>

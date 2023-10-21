@@ -1,19 +1,22 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../app-state/hooks'
 import { Box, Typography, useTheme, Button } from '@mui/material';
 import { closeModal } from '../app-state/features/gameSlice';
+import { socket } from '../socket';
 
 const ResultModal = () => {
     const theme = useTheme()
-    const dispatch  = useAppDispatch();
-    const open = useAppSelector((state)=>{
-        return state.game.gameState.isGameOver
-    })
-    const result = useAppSelector((state)=>{
-        return state.game.gameState.result
-    })
+    const [open,setOpen] = useState(false)
+    const [result, setResult] = useState('Draw')
+
+    useEffect(() =>{
+        socket.on('send_result', (result) =>{
+            setResult(result.result);
+            setOpen(true);
+        })
+    },[socket])
     const handleClose = () => {
-        dispatch(closeModal())
+        setOpen(false);
     }
     return (
             <Box sx={{

@@ -16,6 +16,7 @@ import PlayOnline from './pages/PlayOnline';
 import PlayComputer from './pages/PlayComputer';
 import StandardGame from './Games/StandardGame';
 import StandardBotGame from './Games/StandardBotGame';
+import PassAndPlay from './pages/PassAndPlay';
 
 function App() {
   const theme = useTheme();
@@ -41,6 +42,7 @@ function App() {
               <Route path="" element={<Play/>}/>
               <Route path="/play/online" element={<PlayOnline/>}/>
               <Route path="/play/computer" element={<PlayComputer/>}/>
+              <Route path="/play/pass-n-play" element={<PassAndPlay/>}/>
               <Route path="/play/online/game" element={<StandardGame/>}/>
               <Route path="/play/computer/game" element={<StandardBotGame/>}/>
             </Route>

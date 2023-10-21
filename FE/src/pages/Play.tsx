@@ -77,10 +77,15 @@ const Play = ()=>{
                     <FormatDesc>{dummyDesc}</FormatDesc>
                 </FormatBox>
             </NavLink>
-            <FormatBox>
-                <FormatText>vs AI</FormatText>
-                <FormatDesc>{dummyDesc}</FormatDesc>
-            </FormatBox>
+            <NavLink
+                style={{textDecoration:'none'}}
+                to={"/play/pass-n-play"}
+            >
+                <FormatBox>
+                    <FormatText>Pass And Play</FormatText>
+                    <FormatDesc>{dummyDesc}</FormatDesc>
+                </FormatBox>
+            </NavLink>
         </MainBox>
     )
 }

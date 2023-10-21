@@ -22,6 +22,10 @@ const theme = createTheme({
         secondary: {
             main: "#222226",
             light: "#171719",
+        },
+        action:{
+            disabledBackground:'#263238',
+            disabled:'FFF',
         }
     },
     typography:{
