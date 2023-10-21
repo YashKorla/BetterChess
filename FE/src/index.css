@@ -20,6 +20,14 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.board-img{
+  background-image: url(../src/images/board.png);
+  margin-right: 100px;
+  background-repeat: no-repeat;
+  background-size:cover;
+}
+
 .activeItem{
   background-color: #222226;
 }

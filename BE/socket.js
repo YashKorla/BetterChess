@@ -2,6 +2,10 @@ const http = require("http");
 const { Server } = require("socket.io");
 const express = require("express");
 const cors = require("cors");
+const { Chess } = require("chess.js");
+
+const chess = new Chess();
+let joinData = {players: 0, time: 3};
 
 require("dotenv").config();
 
@@ -17,39 +21,45 @@ const io = new Server(server, {
 		origin: "http://localhost:3000",
 		method: ["GET", "POST"],
 	},
-	// handlePreflightRequest: (req, res) => {
-	// 	res.writeHead(200, {
-	// 		"Access-Control-Allow-Origin": "http://localhost:3000",
-	// 		"Access-Control-Allow-Headers": "X-Requested-With",
-	// 		"Access-Control-Allow-Methods": "GET,POST",
-	// 		"Access-Control-Allow-Credentials": true,
-	// 	});
-	// },
+
 });
+io.on("connection", (socket) => { 
+	console.log("connected to ", socket.id);
 
-// let color = "";
-io.on("connection", (socket) => {
-	console.log("connection established");
-	socket.on("create_game", (data) => {
-		console.log("game created");
-		console.log(data.room);
-		// if (color === "") {
-		// 	console.log("color allotted");
-		// 	color = data.color;
-		// 	socket.emit("join_room", data.color);
-		// }
-		socket.join(data.room);
-	});
+	socket.on('join_room', (data, cb) => {
+		console.log(data);
+		if(joinData.players === 0){
+			socket.join(data.room);
+			console.log("1st player joined");
+			joinData.players = 1;
+			joinData.time = data.time;
+			cb({color: 'white'});
+		}
+		else if(joinData.players===1){
+			if(joinData.time !== data.time){
+				cb({error:'Ensure that both players select same time control'});
+			}
+			else{
+				socket.join(joinData.room);
+				console.log("2nd player joined");
+				joinData.players = 2;
+				cb({color:'black'})
+			} 
+		}  
+		else{
+			cb({error:'room already taken'});
+		} 
+	}) 
 
-	socket.on("send_move", (data) => {
-		console.log("move sent");
-		console.log(data.room);
-		socket.to(data.room).emit("receive_move", data.move);
-		// socket.broadcast.emit("recieve_move", data.move);
-	});
+	socket.on('send_move', (data, cb) => {  
+		console.log(data);
+		socket.broadcast.emit('recieve_move', data);
+	})
+	
 });
 
 server.listen(port, (err) => {
 	if (err) throw err;
 	console.log(`Listening on port ${port}`);
 });
+  
