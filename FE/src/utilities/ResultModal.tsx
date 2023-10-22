@@ -5,16 +5,20 @@ import { closeModal } from '../app-state/features/gameSlice';
 import { socket } from '../socket';
 
 const ResultModal = () => {
-    const theme = useTheme()
-    const [open,setOpen] = useState(false)
-    const [result, setResult] = useState('Draw')
+    const theme = useTheme();
+    const [open,setOpen] = useState(false);
+    const [result,setResult] = useState('');
 
-    useEffect(() =>{
-        socket.on('send_result', (result) =>{
-            setResult(result.result);
-            setOpen(true);
-        })
-    },[socket])
+    socket.on('recieve_winner',(data)=>{
+        setOpen(true);
+        if(data.winner){
+            setResult(`${data.winner} Won The Game`)
+        }
+        else if(data.isDraw){
+            setResult('Game Drawn');
+        }
+        socket.disconnect();
+    })
     const handleClose = () => {
         setOpen(false);
     }

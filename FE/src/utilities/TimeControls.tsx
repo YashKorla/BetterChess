@@ -12,7 +12,7 @@ const TimeControls = () => {
     const theme = useTheme()
     const navigate = useNavigate();
 
-    const handleChange = (index: number,newValue: string) => {
+    const handleTimeChange = (index: number,newValue: string) => {
         const value=parseFloat(newValue);
         setIsDisabled((prevState)=>{
             let arr = new Array(9).fill(false);
@@ -27,11 +27,13 @@ const TimeControls = () => {
         socket.connect();
         socket.emit('join_room', joiningData , (data:any)=>{
             if(data.error){
-                console.log(data.error);
+                console.error(data.error);
             }
             else{
                 myColor=data.color;
-                navigate('/play/online/game',{state:{color:myColor, time:joiningData.time, room:joiningData.room}});
+                const time = joiningData.time;
+                const room = joiningData.room;
+                navigate('/play/online/game',{state:{color:myColor, time:time, room:room}});
             }
         })
     }
@@ -68,27 +70,27 @@ const TimeControls = () => {
                             variant='contained' 
                             sx={{width:'32%'}} 
                             value={0.5} 
-                            onClick={(e)=>{handleChange(0,e.currentTarget.value)}}>
+                            onClick={(e)=>{handleTimeChange(0,e.currentTarget.value)}}>
                                 <Typography>30 sec</Typography>
                         </Button>
-                        <Button disabled={isDisabled[1]} color='primary' variant='contained' sx={{width:'32%'}} value={1} onClick={(e)=>{handleChange(1,e.currentTarget.value)}}><Typography>1 min</Typography></Button>
-                        <Button disabled={isDisabled[2]} color='primary' variant='contained' sx={{width:'32%'}} value={2} onClick={(e)=>{handleChange(2,e.currentTarget.value)}}><Typography>2 min</Typography></Button>
+                        <Button disabled={isDisabled[1]} color='primary' variant='contained' sx={{width:'32%'}} value={1} onClick={(e)=>{handleTimeChange(1,e.currentTarget.value)}}><Typography>1 min</Typography></Button>
+                        <Button disabled={isDisabled[2]} color='primary' variant='contained' sx={{width:'32%'}} value={2} onClick={(e)=>{handleTimeChange(2,e.currentTarget.value)}}><Typography>2 min</Typography></Button>
                     </Box>
                 </Box>
                 <Box sx={{ width:'100%',height:'33.3%' }}>
                     <Typography variant='h3'>Blitz</Typography>
                     <Box marginTop={2} marginBottom={2} sx={{display:'flex', justifyContent:'space-between',height:'50%'}}>
-                        <Button disabled={isDisabled[3]} color='primary' variant='contained' sx={{width:'32%'}} value={3} onClick={(e)=>{handleChange(3,e.currentTarget.value)}}><Typography>3 min</Typography></Button>
-                        <Button disabled={isDisabled[4]} color='primary' variant='contained' sx={{width:'32%'}} value={5} onClick={(e)=>{handleChange(4,e.currentTarget.value)}}><Typography>5 min</Typography></Button>
-                        <Button disabled={isDisabled[5]} color='primary' variant='contained' sx={{width:'32%'}} value={7} onClick={(e)=>{handleChange(5,e.currentTarget.value)}}><Typography>7 min</Typography></Button>
+                        <Button disabled={isDisabled[3]} color='primary' variant='contained' sx={{width:'32%'}} value={3} onClick={(e)=>{handleTimeChange(3,e.currentTarget.value)}}><Typography>3 min</Typography></Button>
+                        <Button disabled={isDisabled[4]} color='primary' variant='contained' sx={{width:'32%'}} value={5} onClick={(e)=>{handleTimeChange(4,e.currentTarget.value)}}><Typography>5 min</Typography></Button>
+                        <Button disabled={isDisabled[5]} color='primary' variant='contained' sx={{width:'32%'}} value={7} onClick={(e)=>{handleTimeChange(5,e.currentTarget.value)}}><Typography>7 min</Typography></Button>
                     </Box>
                 </Box>
                 <Box sx={{ width:'100%',height:'33.3%' }}>
                     <Typography variant='h3'>Rapid</Typography>
                     <Box marginTop={2} marginBottom={2} sx={{display:'flex', justifyContent:'space-between',height:'50%'}}>
-                        <Button disabled={isDisabled[6]} color='primary' variant='contained' sx={{width:'32%'}} value={10} onClick={(e)=>{handleChange(6,e.currentTarget.value)}}><Typography>10 min</Typography></Button>
-                        <Button disabled={isDisabled[7]} color='primary' variant='contained' sx={{width:'32%'}} value={15} onClick={(e)=>{handleChange(7,e.currentTarget.value)}}><Typography>15 min</Typography></Button>
-                        <Button disabled={isDisabled[8]} color='primary' variant='contained' sx={{width:'32%'}} value={20} onClick={(e)=>{handleChange(8,e.currentTarget.value)}}><Typography>20 min</Typography></Button>
+                        <Button disabled={isDisabled[6]} color='primary' variant='contained' sx={{width:'32%'}} value={10} onClick={(e)=>{handleTimeChange(6,e.currentTarget.value)}}><Typography>10 min</Typography></Button>
+                        <Button disabled={isDisabled[7]} color='primary' variant='contained' sx={{width:'32%'}} value={15} onClick={(e)=>{handleTimeChange(7,e.currentTarget.value)}}><Typography>15 min</Typography></Button>
+                        <Button disabled={isDisabled[8]} color='primary' variant='contained' sx={{width:'32%'}} value={20} onClick={(e)=>{handleTimeChange(8,e.currentTarget.value)}}><Typography>20 min</Typography></Button>
                     </Box>
                 </Box>
             </InnerBox>

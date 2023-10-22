@@ -1,16 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../app-state/hooks';
 import { useTheme, styled, Box, Typography, Button } from '@mui/material';
 import { TypeFormatFlags } from 'typescript';
 import { setWinner } from '../app-state/features/gameSlice';
+import { socket } from '../socket';
 
 const height = window.innerHeight*80*75/10000;
 
-const GameControls = () => {
-    const pgn = useAppSelector((state)=> state.game.gameState.pgn)
-    const opponent = useAppSelector((state)=> state.game.gameState.opponent)
+const GameControls = (props:any) => {
+    const [pgn,setPgn] = useState('');
     const theme = useTheme()
-    const dispatch = useAppDispatch()
     
     const OuterBox=styled(Box)({
         width:'415px',   
@@ -29,7 +28,14 @@ const GameControls = () => {
     })
 
     const handleResign = ()=>{
-        dispatch(setWinner('opponent.color'))
+        let winner;
+        if(props.color==='white'){
+            winner = 'Black';
+        }
+        else{
+            winner = 'White';
+        }
+        socket.emit('set_winner', {winner: winner, room: props.room})
     }
 
     return (
@@ -42,14 +48,15 @@ const GameControls = () => {
                 color='secondary'
                 sx={{height:'12%',width:'100%',margin:'3% 0 0 0'}}
             >
-                <Typography variant='h2'>Draw</Typography>
+                <Typography variant='h2'>Offer Draw</Typography>
             </Button>
-            <Button 
+            <Button
                 variant='contained' 
                 color='secondary'
                 sx={{height:'12%',width:'100%',margin:'3% 0 0 0'}}
+                onClick={handleResign}
             >
-                <Typography variant='h2'>Resign/Abort</Typography>
+                <Typography variant='h2'>Resign</Typography>
             </Button>
         </OuterBox>
     )
