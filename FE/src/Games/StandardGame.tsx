@@ -1,11 +1,9 @@
-import React, { useState } from "react";
-import Typography from "@mui/material/Typography";
+import React, { useState , useEffect} from "react";
 import { useLocation } from "react-router-dom";
 import StandardOnlineBoard from "../components/chessboards/StandardOnlineBoard";
-import { Box, Modal } from "@mui/material";
+import { Box, CircularProgress} from "@mui/material";
 import Timer from "../utilities/Timer";
 import GameControls from "../utilities/GameControls";
-import { useAppSelector } from "../app-state/hooks";
 import ResultModal from "../utilities/ResultModal";
 import { socket } from "../socket";
 
@@ -14,7 +12,12 @@ const StandardGame = () => {
 	const time = new Date();
 	time.setSeconds(time.getSeconds() + location.state.time * 60);
 	const opponent = location.state.color === "white" ? "black" : "white";
+	const [isGameStarted, setIsGameStarted]=useState(false);
 
+	socket.on('start_game', (data)=>{
+		setIsGameStarted(data.gameStarted);
+	})
+	
 	return (
 		<Box
 			sx={{
@@ -26,6 +29,20 @@ const StandardGame = () => {
 		>
 			<Box sx={{ position: "relative", marginRight: "100px" }}>
 				<ResultModal />
+				<Box display={`${isGameStarted ? 'none' : ''}`} 
+					sx={{
+						height:'50px',
+						width:'50px',
+						position:'absolute', 
+						top:0,
+						bottom:0,
+						left:0,
+						right:0,    
+						margin:'auto',
+						zIndex:'10',
+						}}>
+					<CircularProgress size={48}/>
+				</Box>
 				<Timer
 					avatar=""
 					name={opponent}
@@ -47,7 +64,7 @@ const StandardGame = () => {
 					player={location.state.color}
 				/>
 			</Box>
-			<GameControls />
+			<GameControls color={location.state.color} room={location.state.room}/>
 		</Box>
 	);
 };
