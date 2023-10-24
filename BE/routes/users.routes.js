@@ -19,7 +19,7 @@ router.route("/register").post((req, res) => {
 	newUser
 		.save()
 		.then(() => res.status(201).json("User Added..."))
-		.catch((err) => res.status(400).json("User Already Exists..."));
+		.catch((err) => res.status(400).json("Error: " + err.message));
 });
 
 /**
@@ -44,10 +44,10 @@ router.route("/login").post((req, res) => {
 				}
 			});
 			if (!res.statusCode === 200) {
-				res.status(400).json("User Not Found");
+				res.status(400).json("Error: " + err.message);
 			}
 		})
-		.catch((err) => res.status(400).json("User Not Found"));
+		.catch((err) => res.status(400).json("Error: " + err.message));
 });
 
 /**
@@ -86,7 +86,7 @@ router.route("/list-friends").post((req, res) => {
 			if (friendDetails.length > 0) {
 				res.status(200).json(friendDetails);
 			} else {
-				res.status(404).json("No friends found...");
+				res.status(404).json("Error: " + err.message);
 			}
 		});
 	});
@@ -111,7 +111,7 @@ router.route("/add-friend").post((req, res) => {
 		newFriend
 			.save()
 			.then(() => res.status(201).json("Friend Added..."))
-			.catch((err) => res.status(400).json("Could not add friend..."));
+			.catch((err) => res.status(400).json("Error: " + err.message));
 	}
 });
 
@@ -138,7 +138,7 @@ router.route("/search-users").post((req, res) => {
 		if (matchingUsers.length > 0) {
 			res.status(200).json(matchingUsers);
 		} else {
-			res.status(404).json("User not found...");
+			res.status(404).json("Error: " + err.message);
 		}
 	});
 });

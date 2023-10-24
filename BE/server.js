@@ -3,6 +3,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const gameRouter = require("./routes/games.routes");
 const userRouter = require("./routes/users.routes");
+const puzzleRouter = require("./routes/puzzles.routes");
 
 require("dotenv").config();
 
@@ -23,6 +24,7 @@ connection.once("open", (err) => {
 
 app.use("/users", userRouter);
 app.use("/games", gameRouter);
+app.use("/puzzles", puzzleRouter);
 
 app.listen(port, (err) => {
 	if (err) throw err;

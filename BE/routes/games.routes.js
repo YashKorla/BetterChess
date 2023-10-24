@@ -22,10 +22,10 @@ router.route("/game-history").post((req, res) => {
 			if (playerGames.length > 0) {
 				res.status(200).json(playerGames);
 			} else {
-				res.status(404).json("There are no games available...");
+				res.status(404).json("Error: " + err.message);
 			}
 		})
-		.catch((err) => res.status(404).json("There are no games available..."));
+		.catch((err) => res.status(404).json("Error: " + err.message));
 });
 
 /**
@@ -46,7 +46,7 @@ router.route("/add-game").post((req, res) => {
 
 	game.save()
 		.then(() => res.status(201).json("Game Added..."))
-		.catch((err) => res.status(400).json("Error: " + err));
+		.catch((err) => res.status(400).json("Error: " + err.message));
 });
 
 module.exports = router;
