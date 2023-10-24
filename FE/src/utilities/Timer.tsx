@@ -14,13 +14,16 @@ interface timerProps {
     rating:number,
     expiryTimestamp: Date,
     player:string,
+    room:number,
 }
 
 const Timer = (props:timerProps) => {
     const dispatch = useAppDispatch()
     const theme=useTheme();
-    const {avatar,name,rating,expiryTimestamp,player}=props;
-    const timer = useTimer({ expiryTimestamp, autoStart:false, onExpire: () => {dispatch(setWinner(player))} });
+    const {avatar,name,rating,expiryTimestamp,player,room}=props;
+    const oppColor = player==='black' ? 'White' : 'Black'
+
+    const timer = useTimer({ expiryTimestamp, autoStart:false, onExpire: () => {socket.emit('set_winner', {winner: oppColor, room: props.room})} });
 
     socket.on('start_game', () => {
         if(player==='white'){
