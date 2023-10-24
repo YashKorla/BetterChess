@@ -24,24 +24,30 @@ const io = new Server(server, {
 	},
  
 });  
-io.on("connection", (socket) => { 
+io.on("connection", (socket) => {    
 
 	socket.on('join_room', (data, cb) => {
-		if(joinData.players === 0){
+		if(data.room === undefined){
+			cb({error: "Enter room"})
+		}
+		else if(data.time === undefined){
+			cb({error: "Select a time"});
+		}
+		else if(joinData.players === 0){
 			socket.join(data.room);
 			joinData.players = 1;
 			joinData.time = data.time;
 			cb({color: 'white'});
 		}
-		else if(joinData.players===1){
+		else if(joinData.players===1){  
 			if(data.time !== joinData.time){
-				cb({error:'Select same time'}); 
+				cb({error:'Ensure both players select same time'}); 
 			}  
 			else{
 				socket.join(data.room);  
 				joinData.players = 2;
 				cb({color:'black'})
-				io.in(data.room).emit('start_game', {gameStarted: true});      
+				io.in(data.room).emit('start_game');       
 			}
 		}  
 		else{
@@ -51,20 +57,21 @@ io.on("connection", (socket) => {
 
 	socket.on('send_move', (data, cb) => {     
 		try{
-			chess.move({from: data.source, to: data.target, promotion: data.piece})
+			chess.move({from: data.source, to: data.target, promotion: data.piece[1].toLowerCase()}) 
 			const p = chess.fen();
 			cb({position: p, success: true}); 
 			socket.to(data.room).emit('recieve_move', p);  
 			io.in(data.room).emit('toggle_timer', chess.turn()); //chess.turn() returns 'w' or 'b'
+			io.in(data.room).emit('recieve_pgn', chess.pgn());
 			if(chess.isGameOver()){
 				if(chess.isInsufficientMaterial() || chess.isStalemate() || chess.isThreefoldRepetition()){
 					io.in(data.room).emit('recieve_winner',{isDraw:true})
 					chess.clear();
-					chess.load(startingPosition);
+					chess.load(startingPosition); 
 					joinData = {players: 0, time: 3};
-				}
-				else{
-					const winner = chess.turn()==='b' ? 'white' : 'black';
+				} 
+				else{ 
+					const winner = chess.turn()==='b' ? 'white' : 'black'; 
 					io.in(data.room).emit('recieve_winner',{winner:winner})   
 					chess.clear();
 					chess.load(startingPosition);
@@ -72,7 +79,7 @@ io.on("connection", (socket) => {
 				}
 			}
 		}catch(e){
-			cb({success:false})
+			cb({position:chess.fen(),success:false})
 		}
 	})  
 
@@ -85,10 +92,37 @@ io.on("connection", (socket) => {
 
 	socket.on('get_piece', (square, cb)=>{
 		cb(chess.get(square))
-	})
+	}) 
 
 	socket.on('get_moves', (data, cb)=>{
 		cb(chess.moves(data)) 
+	})
+
+	socket.on('send_moveSAN',(data,cb)=>{
+		try{      
+			const move = chess.move(data.move);
+			cb({position: chess.fen(), text: 'Move made', error: false});
+			socket.to(data.room).emit('recieve_move',{move: move, position: chess.fen()})
+			io.in(data.room).emit('toggle_timer', chess.turn()); //chess.turn() returns 'w' or 'b'
+			io.in(data.room).emit('recieve_pgn', chess.pgn());
+			if(chess.isGameOver()){
+				if(chess.isInsufficientMaterial() || chess.isStalemate() || chess.isThreefoldRepetition()){
+					io.in(data.room).emit('recieve_winner',{isDraw:true})
+					chess.clear();
+					chess.load(startingPosition); 
+					joinData = {players: 0, time: 3};
+				} 
+				else{ 
+					const winner = chess.turn()==='b' ? 'white' : 'black'; 
+					io.in(data.room).emit('recieve_winner',{winner:winner})   
+					chess.clear();
+					chess.load(startingPosition);
+					joinData = {players: 0, time: 3};
+				}
+			}   
+		}catch(e){
+			cb({position: chess.fen(), text:'Invalid move', error:true});
+		}
 	})
 	
 });

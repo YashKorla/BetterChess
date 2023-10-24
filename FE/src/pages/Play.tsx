@@ -3,7 +3,6 @@ import Typography from '@mui/material/Typography';
 import { Box } from '@mui/material';
 import styled from '@emotion/styled';
 import theme from '../theme';
-import IconButton from '@mui/material/IconButton/IconButton';
 
 import { useTheme } from '@emotion/react';
 import { NavLink } from 'react-router-dom';

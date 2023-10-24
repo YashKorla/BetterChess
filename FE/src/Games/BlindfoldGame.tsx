@@ -1,21 +1,21 @@
 import React, { useState} from "react";
 import { useLocation } from "react-router-dom";
-import StandardOnlineBoard from "../components/chessboards/StandardOnlineBoard";
 import { Box, CircularProgress} from "@mui/material";
 import Timer from "../utilities/Timer";
 import GameControls from "../utilities/GameControls";
 import ResultModal from "../utilities/ResultModal";
 import { socket } from "../socket";
+import BlindfoldBoard from "../components/chessboards/BlindfoldBoard";
 
-const StandardGame = () => {
+const BlindfoldGame = () => {
 	const location = useLocation();
 	const time = new Date();
 	time.setSeconds(time.getSeconds() + location.state.time * 60);
 	const opponent = location.state.color === "white" ? "black" : "white";
 	const [isGameStarted, setIsGameStarted]=useState(false);
 
-	socket.on('start_game', (data)=>{
-		setIsGameStarted(data.gameStarted);
+	socket.on('start_game', ()=>{
+		setIsGameStarted(true);
 	})
 	
 	return (
@@ -51,7 +51,7 @@ const StandardGame = () => {
 					player={opponent}
 				/>
 
-				<StandardOnlineBoard
+				<BlindfoldBoard
 					color={location.state.color}
 					room={location.state.room}
 				/>
@@ -69,4 +69,4 @@ const StandardGame = () => {
 	);
 };
 
-export default StandardGame;
+export default BlindfoldGame;

@@ -58,6 +58,39 @@ const theme = createTheme({
             desktop: 1600,
         },
     },
+    components: {
+        MuiFilledInput: {
+          styleOverrides: {
+            root: {
+              '&:before, &:after': {
+                borderBottom: '2px solid #E0E3E7',
+              },
+              '&:hover:not(.Mui-disabled, .Mui-error):before': {
+                borderBottom: '2px solid #B2BAC2',
+              },
+              '&.Mui-focused:after': {
+                borderBottom: '2px solid #6F7E8C',
+              },
+              '&.Mui-disabled':{
+                color:'#FFFFFF',
+              },
+              backgroundColor:"#171719",
+              color: "#FFFFFF",
+            },
+          },
+        },
+        MuiFormHelperText:{
+            styleOverrides: {
+                root:{
+                    color:'#FFFFFF',
+                    '&.Mui-disabled':{
+                        color:'#FFFFFF',
+                    }
+                },
+            }
+        }
+      },
+
 });
 
 export default theme;
