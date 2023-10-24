@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Chessboard } from "react-chessboard";
 import { Square, Piece } from "react-chessboard/dist/chessboard/types";
 import { useState } from "react";
 import { socket } from "../../socket";
 
-const boardWidth = (window.innerHeight * 80 * 75) / 10000;
-let sourceSquare:Square;
+const boardWidth = (window.innerHeight - 120)* 80/100;
+// let sourceSquare:Square;
 
 const StandardOnlineBoard = (props: any) => {
 
@@ -17,7 +17,7 @@ const StandardOnlineBoard = (props: any) => {
         isGameStarted = true;
     })
 
-	const sendMove = (source: Square, target: Square, piece:any) => {
+	const sendMove = (source: Square, target: Square, piece:Piece) => {
 		let wasMoveSuccessful = false;
 		socket.emit("send_move", { source: source, target:target, piece:piece, room: props.room }, (data:any)=>{
 			setPosition(data.position);
@@ -25,11 +25,10 @@ const StandardOnlineBoard = (props: any) => {
 		});
 		return wasMoveSuccessful
 	};
-	useEffect(()=>{
-		socket.on("recieve_move", (position) => {
-			setPosition(position);
-		});
-	},[socket]);
+	
+	socket.on("recieve_move", (position) => {
+		setPosition(position);
+	});
 		
 	const handleDrop = (source: Square, target: Square, piece: Piece) => {
 		setOptionSquares({});

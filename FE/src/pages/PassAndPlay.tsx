@@ -18,8 +18,9 @@ const PassAndPlay = () => {
     const handleDrop = (source:Square,target: Square, piece:Piece) => {
         setOptionSquares({});
 		try {
-			const move = chess.move({ from: source, to: target , promotion: piece});
+			chess.move({ from: source, to: target , promotion: piece[1].toLowerCase()});
             setPosition(chess.fen());
+            chess.turn() === 'b' ? setOrientation('black') : setOrientation('white');
             setPgn(chess.pgn())
 			return true;
 		} catch (e) {
@@ -39,7 +40,7 @@ const PassAndPlay = () => {
 			return false;
 		}
 		let newSquares = {};
-		moves.map((move) => {
+		moves.forEach((move) => {
 			const key = move.to;
 			chess.get(key)
 				? (newSquares = {

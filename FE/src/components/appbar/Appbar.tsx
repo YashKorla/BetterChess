@@ -5,7 +5,6 @@ import Button from "@mui/material/Button";
 import styled from "@emotion/styled";
 import { Modal, useTheme } from "@mui/material";
 import Loginmodal from "../../utilities/Loginmodal";
-import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const Appbar = () => {

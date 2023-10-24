@@ -1,11 +1,10 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Box, useTheme } from '@mui/material';
 import styled from '@emotion/styled';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import { useTimer } from 'react-timer-hook';
-import {useAppDispatch, useAppSelector } from '../app-state/hooks';
-import { ternaryOperator } from './../utils';
+import {useAppDispatch} from '../app-state/hooks';
 import { setWinner } from '../app-state/features/gameSlice';
 import { socket } from '../socket';
 
@@ -23,7 +22,7 @@ const Timer = (props:timerProps) => {
     const {avatar,name,rating,expiryTimestamp,player}=props;
     const timer = useTimer({ expiryTimestamp, autoStart:false, onExpire: () => {dispatch(setWinner(player))} });
 
-    socket.on('start_game', (data) => {
+    socket.on('start_game', () => {
         if(player==='white'){
             timer.start();
         }

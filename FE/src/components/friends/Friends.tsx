@@ -85,11 +85,11 @@ const InviteIcon =styled(AddIcon)({
   position:'relative',
   color:grey[100]
 })
-interface props{
-  imageurl:string,
-  nametext:string,
-  desctext:string
-}
+// interface props{
+//   imageurl:string,
+//   nametext:string,
+//   desctext:string
+// }
 
 const Friends=(props:friendstypes)=>{
   return(
