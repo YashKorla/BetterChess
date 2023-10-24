@@ -12,7 +12,8 @@ import ClickAwayListener from '@mui/material/ClickAwayListener';
 import Box from '@mui/material/Box/Box';
 import Avatar from '@mui/material/Avatar';
 import MenuItem from '@mui/material/MenuItem';
-
+import { useAppDispatch,useAppSelector } from '../../app-state/hooks';
+import { stat } from 'fs';
     const MenuBox  = () => {
         const theme = useTheme();
         const AccountText=styled(Typography)({
@@ -78,6 +79,7 @@ import MenuItem from '@mui/material/MenuItem';
       
           prevOpen.current = open;
         }, [open]);
+        const accountname = useAppSelector(state=>state.userPreference.user.username)
   return (
     <div>
         <Button
@@ -91,7 +93,7 @@ import MenuItem from '@mui/material/MenuItem';
           <AccountBox>
             <AccountAvatar/>           
               <AccountText>
-                Name
+                {accountname}
               </AccountText> 
           </AccountBox>
         </Button>

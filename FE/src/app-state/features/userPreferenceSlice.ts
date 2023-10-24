@@ -1,3 +1,4 @@
+import { AxiosError } from './../../../node_modules/axios/index.d';
 
 import { createSlice,PayloadAction,createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
@@ -27,14 +28,22 @@ type logindatatype={
 }
 interface UserPreferences {
   isloading: boolean,
-  user:user[]
-  error: string,
+  user:user
+  loginerror: string,
+  registererror:string
 }
 
 const initialState:UserPreferences= {
   isloading:false,
-  error:'',
-  user:[]
+  loginerror:'',
+  registererror:'', 
+  user:{
+    username: "",
+    password: "",
+    email: "",
+    rating:0,
+    number_of_matches:0,
+  }
 };
 
 
@@ -44,15 +53,15 @@ export const registerUser = createAsyncThunk('auth/registerUser', async (registe
     return axios
       .post('http://localhost:8080/users/register',registerdata)
       .then((response) => response.data)
-      .catch((err) => console.log(err.response.data))
+      .catch((err) => err.response.data)
   });
 
 export const loginUser = createAsyncThunk('auth/loginUser', async (logindata:logindatatype) => {
-    console.log("Data: " + logindata)
+    console.log(logindata)
     return axios
     .post('http://localhost:8080/users/login',logindata)
     .then((response) => response.data)
-    .catch((err) => console.log(err.response.data))
+    .catch((err) => err.response.data)
 
     
 });
@@ -72,13 +81,14 @@ const userPreferenceSlice = createSlice({
           console.log(action.payload)
           state.isloading = false;
           
-          state.user =action.payload; 
-          state.error = ''
+          
+          state.registererror = action.payload
         })
         .addCase(registerUser.rejected, (state, action) => {
           state.isloading = false;
-          state.user=[]
-          state.error = action.error.message||'something went wrong';
+          
+          state.registererror = action.error.message||'something went wrong';
+         
           
         })
         .addCase(loginUser.pending, (state) => {
@@ -86,15 +96,27 @@ const userPreferenceSlice = createSlice({
         })
         .addCase(loginUser.fulfilled, (state, action) => {
           state.isloading = false;
-          console.log("Payload: " + action.payload);
-          state.user= action.payload;
-          state.error = '' 
+          if(action.payload!="User not found..."){
+            state.user.email= action.payload.email; 
+            state.user.number_of_matches= action.payload.number_of_matches;
+            state.user.username= action.payload.username;
+            state.user.rating= action.payload.rating;
+            state.user.password= action.payload.password;
+            
+            state.loginerror="Logged in Successfully"
+            console.log(state.user)
+          }
+          else{
+           
+            state.loginerror=action.payload
+          }
         })
         .addCase(loginUser.rejected, (state, action) => {
           state.isloading = false;
-          state.error =action.error.message||'something went wrong';
-           
+          state.loginerror =action.error.message||'something went wrong';
           console.log(action.payload)
+          
+          
         });
 
 

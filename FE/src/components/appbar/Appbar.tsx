@@ -54,7 +54,7 @@ const Appbar = () => {
 		<div>
 			<Topbar position="fixed">
 				<NavLink to="/">
-					<TopbarText>Shatranj.com</TopbarText>
+					<TopbarText>Shatranj</TopbarText>
 				</NavLink>
 				<Login
 					variant="contained"
@@ -75,3 +75,4 @@ const Appbar = () => {
 };
 
 export default Appbar;
+

@@ -19,7 +19,7 @@ router.route("/register").post((req, res) => {
 	newUser
 		.save()
 		.then(() => res.status(201).json("User Added..."))
-		.catch((err) => res.status(400).json("Error: " + err.message));
+		.catch((err) => res.status(400).json("User already register"));
 });
 
 /**
@@ -41,12 +41,17 @@ router.route("/login").post((req, res) => {
 					user.username === userCredentials.username &&
 					user.password === userCredentials.password
 				) {
+					
+					
 					res.status(200).json(user);
 				}
 			});
-			if (!(res.statusCode === 200)) {
-				res.status(400).json("User not found...");
-			}
+				if (!(res.statusCode === 200)) {
+					
+					res.status(400).json("Invalid credentials...");
+				}
+			
+			 
 		})
 		.catch((err) => res.status(400).json("Error: " + err.message));
 });

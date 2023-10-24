@@ -1,5 +1,5 @@
 import React,{Component, useEffect}from 'react';
-import { Box,Typography,Button,InputBase,InputAdornment,IconButton } from '@mui/material'
+import { Box,Typography,Button,InputBase,InputAdornment,IconButton, Alert } from '@mui/material'
 import styled from '@emotion/styled';   
 import theme from '../theme';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
@@ -11,6 +11,7 @@ import MailIcon from '@mui/icons-material/MailOutline';
 import { useState } from 'react';
 import {useDispatch, useSelector } from 'react-redux';
 import {ThunkDispatch} from "@reduxjs/toolkit";
+import { useAppSelector,useAppDispatch } from '../app-state/hooks';
 
 
 import { loginUser,registerUser } from '../app-state/features/userPreferenceSlice';
@@ -145,7 +146,7 @@ const Loginmodal = () => {
   const dispacher = useDispatch()
 
   const  handleregister = (n:string,p:string,m:string) => {  
-    
+    setResgisteralert(true)
     const registerData={
       userDetails:{
         username: n,
@@ -157,7 +158,7 @@ const Loginmodal = () => {
     dispatch(registerUser(registerData))
   };
   const  handleLogin= (n:string,p:string) => {  
-    
+    setLoginalert(true)
     const loginData={
       userCredentials:{
         username: n,
@@ -168,7 +169,10 @@ const Loginmodal = () => {
       }
     dispatch(loginUser(loginData))
   };
-  
+  const alertLoginMessage= useAppSelector(state=>state.userPreference.loginerror)
+  const [showLoginalert, setLoginalert] = useState(false);
+  const alertRegisterMessage= useAppSelector(state=>state.userPreference.registererror)
+  const [showRegisteralert, setResgisteralert] = useState(false);
   
 
 
@@ -241,6 +245,11 @@ const Loginmodal = () => {
             </LoginButton>
             
           </Login>
+          <Box display={`${showLoginalert? '' : 'none'}`}>
+            <Alert  severity={alertLoginMessage=='Logged in Successfully' ? "success" : "error"}>
+              {alertLoginMessage}
+            </Alert>
+          </Box>
       </Box>
       <Box display={`${register? '' : 'none'}`}>
       
@@ -328,14 +337,24 @@ const Loginmodal = () => {
         
             
           <Login>
-            <LoginButton onClick={()=>{handleregister(nameRegister,passwordRegister,emailRegister)}}>
+            <LoginButton onClick={()=>{handleregister(nameRegister,passwordRegister,emailRegister)
+            
+            
+            }}>
                 Register
               <LoginIcon/>
             </LoginButton>
             
           </Login>
+          <Box display={`${showRegisteralert? '' : 'none'}`}>
+            <Alert  severity={alertRegisterMessage=='User Added...' ? "success" : "error"}>
+              {alertRegisterMessage}
+            </Alert>
+          </Box>
           
       </Box>
+      
+      
     </ModalBox>
     
     
