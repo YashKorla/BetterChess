@@ -43,14 +43,16 @@ export const registerUser = createAsyncThunk('auth/registerUser', async (registe
     console.log(registerdata)
     return axios
       .post('http://localhost:8080/users/register',registerdata)
-      .then((response) =>response.data)
+      .then((response) => response.data)
+      .catch((err) => console.log(err.response.data))
   });
 
 export const loginUser = createAsyncThunk('auth/loginUser', async (logindata:logindatatype) => {
-    console.log(logindata)
+    console.log("Data: " + logindata)
     return axios
     .post('http://localhost:8080/users/login',logindata)
     .then((response) => response.data)
+    .catch((err) => console.log(err.response.data))
 
     
 });
@@ -67,6 +69,7 @@ const userPreferenceSlice = createSlice({
           state.isloading = true;
         })
         .addCase(registerUser.fulfilled, (state, action) => {
+          console.log(action.payload)
           state.isloading = false;
           
           state.user =action.payload; 
@@ -83,7 +86,7 @@ const userPreferenceSlice = createSlice({
         })
         .addCase(loginUser.fulfilled, (state, action) => {
           state.isloading = false;
-          console.log(action.payload);
+          console.log("Payload: " + action.payload);
           state.user= action.payload;
           state.error = '' 
         })

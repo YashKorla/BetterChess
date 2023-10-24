@@ -33,6 +33,7 @@ router.route("/register").post((req, res) => {
  */
 router.route("/login").post((req, res) => {
 	const userCredentials = req.body.userCredentials;
+	res.statusCode = 400;
 	User.find()
 		.then((users) => {
 			users.map((user) => {
@@ -43,8 +44,8 @@ router.route("/login").post((req, res) => {
 					res.status(200).json(user);
 				}
 			});
-			if (!res.statusCode === 200) {
-				res.status(400).json("Error: " + err.message);
+			if (!(res.statusCode === 200)) {
+				res.status(400).json("User not found...");
 			}
 		})
 		.catch((err) => res.status(400).json("Error: " + err.message));
@@ -128,13 +129,10 @@ router.route("/search-users").post((req, res) => {
 	User.find().then((users) => {
 		users.map((user) => {
 			const username = user.username.toLowerCase();
-			console.log(username, enteredUsername.toLowerCase());
 			if (username.includes(enteredUsername.toLowerCase())) {
-				console.log("inside");
 				matchingUsers.push(user);
 			}
 		});
-		console.log(matchingUsers);
 		if (matchingUsers.length > 0) {
 			res.status(200).json(matchingUsers);
 		} else {
