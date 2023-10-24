@@ -1,4 +1,4 @@
-import React,{Component}from 'react';
+import React,{Component, useEffect}from 'react';
 import { Box,Typography,Button,InputBase,InputAdornment,IconButton } from '@mui/material'
 import styled from '@emotion/styled';   
 import theme from '../theme';
@@ -9,6 +9,11 @@ import Lock from '@mui/icons-material/Lock';
 import LoginIcon from '@mui/icons-material/Login';
 import MailIcon from '@mui/icons-material/MailOutline';
 import { useState } from 'react';
+import {useDispatch, useSelector } from 'react-redux';
+import {ThunkDispatch} from "@reduxjs/toolkit";
+
+
+import { loginUser,registerUser } from '../app-state/features/userPreferenceSlice';
 
 const ModalBox = styled(Box)({
     position: 'absolute',
@@ -33,7 +38,7 @@ const Header =styled(Button)({
 })
 const HeaderButtton =styled(Button)({
     color: '#FFFFFF',    
-    width: '100%',
+    width: '100%', 
     height: '70px',
     margin:'0 5px 0 5px',
     "&:hover":{     
@@ -125,9 +130,8 @@ const Loginmodal = () => {
   const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
   };
-  const isValidEmail=(emailRegister:any)=>{
-    console.log(emailRegister)
-    return /\S+@\S+\.\S+/.test(emailRegister) ;
+  const isValidEmail=(emailRegister:any)=>{    
+    return /\S+@\S+\.\S+/.test(emailRegister);
   }
   const [mailError, setmailError] = useState(false);
   //Login
@@ -136,6 +140,36 @@ const Loginmodal = () => {
   const[nameRegister,setnameRegister]=useState("")
   const[passwordRegister,setpasswordRegister]=useState("")
   const[emailRegister,setemailRegister]=useState("")
+
+  const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
+  const dispacher = useDispatch()
+
+  const  handleregister = (n:string,p:string,m:string) => {  
+    
+    const registerData={
+      userDetails:{
+        username: n,
+        password: p,
+        email:m,
+      }
+      
+      }
+    dispatch(registerUser(registerData))
+  };
+  const  handleLogin= (n:string,p:string) => {  
+    
+    const loginData={
+      userCredentials:{
+        username: n,
+        password: p,
+        
+      }
+      
+      }
+    dispatch(loginUser(loginData))
+  };
+  
+  
 
 
  
@@ -201,7 +235,7 @@ const Loginmodal = () => {
         
             
           <Login>
-            <LoginButton >
+            <LoginButton onClick={()=>{handleLogin(nameLogin,passwordLogin)}}>
                 Login
               <LoginIcon/>
             </LoginButton>
@@ -209,7 +243,7 @@ const Loginmodal = () => {
           </Login>
       </Box>
       <Box display={`${register? '' : 'none'}`}>
-
+      
           <FieldBox>
             <Label>User Name</Label>
             <InputBox>
@@ -271,18 +305,21 @@ const Loginmodal = () => {
               <TextBox>
               
               <InputBase
-                sx={{ ml: 1, flex: 1,width:'auto',height:'100%',fontSize:'20px',color:'#FFFFFF'}}
+                sx={{width:'auto',height:'100%',fontSize:'20px',color:'#FFFFFF'}}
                 value={emailRegister}
                 placeholder="Enter your email id..."            
                 onChange={(e)=>{
                   if(!isValidEmail(e.target.value)){
                     setmailError(true)
+                    setemailRegister(e.target.value)
                   }                  
                   else{
                     setmailError(false)
                     setemailRegister(e.target.value)
+                    
                   }
                 }}
+              
                   
               />
               </TextBox>
@@ -291,12 +328,13 @@ const Loginmodal = () => {
         
             
           <Login>
-            <LoginButton >
+            <LoginButton onClick={()=>{handleregister(nameRegister,passwordRegister,emailRegister)}}>
                 Register
               <LoginIcon/>
             </LoginButton>
             
           </Login>
+          
       </Box>
     </ModalBox>
     
