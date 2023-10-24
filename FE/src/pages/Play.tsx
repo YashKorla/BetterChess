@@ -3,7 +3,6 @@ import Typography from '@mui/material/Typography';
 import { Box } from '@mui/material';
 import styled from '@emotion/styled';
 import theme from '../theme';
-import IconButton from '@mui/material/IconButton/IconButton';
 
 import { useTheme } from '@emotion/react';
 import { NavLink } from 'react-router-dom';
@@ -77,10 +76,15 @@ const Play = ()=>{
                     <FormatDesc>{dummyDesc}</FormatDesc>
                 </FormatBox>
             </NavLink>
-            <FormatBox>
-                <FormatText>vs AI</FormatText>
-                <FormatDesc>{dummyDesc}</FormatDesc>
-            </FormatBox>
+            <NavLink
+                style={{textDecoration:'none'}}
+                to={"/play/pass-n-play"}
+            >
+                <FormatBox>
+                    <FormatText>Pass And Play</FormatText>
+                    <FormatDesc>{dummyDesc}</FormatDesc>
+                </FormatBox>
+            </NavLink>
         </MainBox>
     )
 }

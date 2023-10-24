@@ -1,55 +1,136 @@
 const http = require("http");
-const { Server } = require("socket.io");
 const express = require("express");
 const cors = require("cors");
+const { Server } = require("socket.io");
+const {instrument} = require('@socket.io/admin-ui')
+const { Chess } = require("chess.js");
 
 require("dotenv").config();
 
 const app = express();
+app.use(cors()); 
+// app.use(express.json());
+// const port = process.env.SOCKET_PORT || 7000;
 const server = http.createServer(app);
-const port = process.env.SOCKET_PORT || 7000;
 
-app.use(cors());
-app.use(express.json());
+const chess = new Chess();
+let joinData = {players: 0, time: 3};
 
 const io = new Server(server, {
 	cors: {
-		origin: "http://localhost:3000",
+		origin: ["http://localhost:3000", "https://admin.socket.io"],
+		credentials: true,
 		method: ["GET", "POST"],
 	},
-	// handlePreflightRequest: (req, res) => {
-	// 	res.writeHead(200, {
-	// 		"Access-Control-Allow-Origin": "http://localhost:3000",
-	// 		"Access-Control-Allow-Headers": "X-Requested-With",
-	// 		"Access-Control-Allow-Methods": "GET,POST",
-	// 		"Access-Control-Allow-Credentials": true,
-	// 	});
-	// },
+ 
+});  
+io.on("connection", (socket) => {    
+
+	socket.on('join_room', (data, cb) => {
+		if(data.room === undefined){
+			cb({error: "Enter room"})
+		}
+		else if(data.time === undefined){
+			cb({error: "Select a time"});
+		}
+		else if(joinData.players === 0){
+			socket.join(data.room);
+			joinData.players = 1;
+			joinData.time = data.time;
+			cb({color: 'white'});
+		}
+		else if(joinData.players===1){  
+			if(data.time !== joinData.time){
+				cb({error:'Ensure both players select same time'}); 
+			}  
+			else{
+				socket.join(data.room);  
+				joinData.players = 2;
+				cb({color:'black'})
+				io.in(data.room).emit('start_game');       
+			}
+		}  
+		else{
+			cb({error:'room already taken'}); 
+		}  
+	}) 
+
+	socket.on('send_move', (data, cb) => {     
+		try{
+			chess.move({from: data.source, to: data.target, promotion: data.piece[1].toLowerCase()}) 
+			const p = chess.fen();
+			cb({position: p, success: true}); 
+			socket.to(data.room).emit('recieve_move', p);  
+			io.in(data.room).emit('toggle_timer', chess.turn()); //chess.turn() returns 'w' or 'b'
+			io.in(data.room).emit('recieve_pgn', chess.pgn());
+			if(chess.isGameOver()){
+				if(chess.isInsufficientMaterial() || chess.isStalemate() || chess.isThreefoldRepetition()){
+					io.in(data.room).emit('recieve_winner',{isDraw:true})
+					chess.clear();
+					chess.load(startingPosition); 
+					joinData = {players: 0, time: 3};
+				} 
+				else{ 
+					const winner = chess.turn()==='b' ? 'white' : 'black'; 
+					io.in(data.room).emit('recieve_winner',{winner:winner})   
+					chess.clear();
+					chess.load(startingPosition);
+					joinData = {players: 0, time: 3};
+				}
+			}
+		}catch(e){
+			cb({position:chess.fen(),success:false})
+		}
+	})  
+
+	socket.on('set_winner',(data)=>{
+		io.in(data.room).emit('recieve_winner',{winner: data.winner})
+		chess.clear(); 
+		chess.load('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1');
+		joinData = {players: 0, time: 3};
+	})
+
+	socket.on('get_piece', (square, cb)=>{
+		cb(chess.get(square))
+	}) 
+
+	socket.on('get_moves', (data, cb)=>{
+		cb(chess.moves(data)) 
+	})
+
+	socket.on('send_moveSAN',(data,cb)=>{
+		try{      
+			const move = chess.move(data.move);
+			cb({position: chess.fen(), text: 'Move made', error: false});
+			socket.to(data.room).emit('recieve_move',{move: move, position: chess.fen()})
+			io.in(data.room).emit('toggle_timer', chess.turn()); //chess.turn() returns 'w' or 'b'
+			io.in(data.room).emit('recieve_pgn', chess.pgn());
+			if(chess.isGameOver()){
+				if(chess.isInsufficientMaterial() || chess.isStalemate() || chess.isThreefoldRepetition()){
+					io.in(data.room).emit('recieve_winner',{isDraw:true})
+					chess.clear();
+					chess.load(startingPosition); 
+					joinData = {players: 0, time: 3};
+				} 
+				else{ 
+					const winner = chess.turn()==='b' ? 'white' : 'black'; 
+					io.in(data.room).emit('recieve_winner',{winner:winner})   
+					chess.clear();
+					chess.load(startingPosition);
+					joinData = {players: 0, time: 3};
+				}
+			}   
+		}catch(e){
+			cb({position: chess.fen(), text:'Invalid move', error:true});
+		}
+	})
+	
 });
 
-// let color = "";
-io.on("connection", (socket) => {
-	console.log("connection established");
-	socket.on("create_game", (data) => {
-		console.log("game created");
-		console.log(data.room);
-		// if (color === "") {
-		// 	console.log("color allotted");
-		// 	color = data.color;
-		// 	socket.emit("join_room", data.color);
-		// }
-		socket.join(data.room);
-	});
+instrument(io, {auth: false});
 
-	socket.on("send_move", (data) => {
-		console.log("move sent");
-		console.log(data.room);
-		socket.to(data.room).emit("receive_move", data.move);
-		// socket.broadcast.emit("recieve_move", data.move);
-	});
-});
-
-server.listen(port, (err) => {
+server.listen(7000, (err) => {
 	if (err) throw err;
-	console.log(`Listening on port ${port}`);
+	console.log(`Listening on port 7000`);
 });
+  

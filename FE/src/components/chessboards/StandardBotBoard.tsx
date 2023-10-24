@@ -1,6 +1,6 @@
 import React from 'react';
 import { Chessboard } from 'react-chessboard';
-import { Square,Piece,BoardOrientation } from 'react-chessboard/dist/chessboard/types';
+import { Square,Piece } from 'react-chessboard/dist/chessboard/types';
 import { useAppDispatch,useAppSelector } from '../../app-state/hooks';
 import { setGameState } from '../../app-state/features/gameSlice';
 import {Chess} from 'chess.js'
@@ -12,7 +12,6 @@ const chess = new Chess();
 let gameOver = false;
 let result = ''
 let sourceSquare = '';
-let targetSquare='';
 
 
 const boardWidth = window.innerHeight*80*75/10000;
@@ -110,7 +109,7 @@ const StandardBotBoard = (props:any)=>{
         const moves = chess.moves({square:square,verbose:true});
         if (moves.length===0){setOptionSquares({}); return false}
         let newSquares = {};
-        moves.map((move)=>{
+        moves.forEach((move)=>{
             const key = move.to
             chess.get(key) ? 
             newSquares = {...newSquares, [key]:{background:"radial-gradient(closest-side, #97aef3 80%, transparent 40%)"}} : 

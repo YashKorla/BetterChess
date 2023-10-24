@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 
 const height = (window.innerHeight-120)*80/100;
 
-const PlayOnline = () => {
+const PlayBlindfold = () => {
 
 	return (
 		<>
@@ -19,10 +19,10 @@ const PlayOnline = () => {
 		>
 			<Box className="board-img" sx={{ height:`${height}px`, width:`${height}px`,}}>
 			</Box>
-			<TimeControls variant="/play/online/game"/>
+			<TimeControls variant="/variants/blindfold/game"/>
 		</Box>
 		</>
 	); 
 };
 
-export default PlayOnline;
+export default PlayBlindfold;

@@ -10,8 +10,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Box  from '@mui/material/Box';
 import styled from '@emotion/styled';
 import {useTheme} from '@mui/material/styles';
-import { ListItemButton } from '@mui/material';
-import { Link, NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import MenuBox from './MenuBox';
 
 const navitems=[
@@ -24,7 +23,6 @@ const navitems=[
 
 const Navbar = () => {
   const theme = useTheme();
-  const location = useLocation();
 
   const ListText=styled(Typography)({
     fontSize: '24px',
@@ -35,10 +33,6 @@ const Navbar = () => {
       fontSize:'32px',
     },
   })
-  
-  
-  
-  
   
   const CustomToolbar=styled(Box)({
     display:'flex',

@@ -1,154 +1,145 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Chessboard } from "react-chessboard";
 import { Square, Piece } from "react-chessboard/dist/chessboard/types";
-import { useAppDispatch, useAppSelector } from "../../app-state/hooks";
-import { setGameState } from "../../app-state/features/gameSlice";
-import { Chess } from "chess.js";
 import { useState } from "react";
 import { socket } from "../../socket";
 
-const chess = new Chess();
-let gameOver = false;
-let result = "";
-let sourceSquare = "";
-
-const boardWidth = (window.innerHeight * 80 * 75) / 10000;
+const boardWidth = (window.innerHeight - 120)* 80/100;
+// let sourceSquare:Square;
 
 const StandardOnlineBoard = (props: any) => {
-	const sendMove = (move: any) => {
-		socket.emit("send_move", { move: move, room: props.room });
-		console.log("move sent");
-	};
-	const dispatch = useAppDispatch();
-	const position = useAppSelector((state) => {
-		return state.game.gameState.position;
-	});
+
+	const [position, setPosition]= useState('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1 ')
 	const [optionSquares, setOptionSquares] = useState({});
+	let isGameStarted = false;
 
-	useEffect(() => {
-		socket.on("recieve_move", (move) => {
-			console.log("received");
-			try {
-				chess.move(move);
-				if (chess.isGameOver()) {
-					gameOver = true;
-					if (
-						chess.isThreefoldRepetition() ||
-						chess.isStalemate() ||
-						chess.isInsufficientMaterial()
-					) {
-						result = "draw";
-					}
-					if (chess.isCheckmate()) {
-						chess.turn() === "b" ? (result = "white") : (result = "black");
-					}
-				}
-				dispatch(
-					setGameState({
-						position: chess.fen(),
-						pgn: chess.pgn(),
-						isGameOver: gameOver,
-						result: result,
-					})
-				);
-			} catch (error) {}
+	socket.on('start_game', (data) => {
+        isGameStarted = true;
+    })
+
+	const sendMove = (source: Square, target: Square, piece:Piece) => {
+		let wasMoveSuccessful = false;
+		socket.emit("send_move", { source: source, target:target, piece:piece, room: props.room }, (data:any)=>{
+			setPosition(data.position);
+			wasMoveSuccessful = data.success;
 		});
-	}, [socket]);
-
+		return wasMoveSuccessful
+	};
+	
+	socket.on("recieve_move", (position) => {
+		setPosition(position);
+	});
+		
 	const handleDrop = (source: Square, target: Square, piece: Piece) => {
 		setOptionSquares({});
-		try {
-			const move = chess.move({ from: source, to: target });
-			if (chess.isGameOver()) {
-				gameOver = true;
-				if (
-					chess.isThreefoldRepetition() ||
-					chess.isStalemate() ||
-					chess.isInsufficientMaterial()
-				) {
-					result = "draw";
-				}
-				if (chess.isCheckmate()) {
-					chess.turn() === "b" ? (result = "white") : (result = "black");
-				}
-			}
-			dispatch(
-				setGameState({
-					position: chess.fen(),
-					pgn: chess.pgn(),
-					isGameOver: gameOver,
-					result: result,
-				})
-			);
-			console.log(move);
-			sendMove(move);
-			return true;
-		} catch (e) {
+		if(isGameStarted){
 			return false;
 		}
-	};
-	const handleClick = (square: Square) => {
-		try {
-			const move = chess.move({ from: sourceSquare, to: square });
-			setOptionSquares({});
-			if (chess.isGameOver()) {
-				gameOver = true;
-				if (
-					chess.isThreefoldRepetition() ||
-					chess.isStalemate() ||
-					chess.isInsufficientMaterial()
-				) {
-					result = "draw";
-				}
-				if (chess.isCheckmate()) {
-					chess.turn() === "b" ? (result = "white") : (result = "black");
-				}
-			}
-			dispatch(
-				setGameState({
-					position: chess.fen(),
-					pgn: chess.pgn(),
-					isGameOver: gameOver,
-					result: result,
-				})
-			);
-			sendMove(move);
-			return true;
-		} catch (e) {}
-		sourceSquare = square;
-		const moves = chess.moves({ square: square, verbose: true });
-		if (moves.length === 0) {
-			setOptionSquares({});
-			return false;
+		else if((props.color==='white' && piece[0]==='w') || (props.color==='black' && piece[0]==='b')){
+			return sendMove(source, target, piece)
 		}
-		let newSquares = {};
-		moves.map((move) => {
-			const key = move.to;
-			chess.get(key)
-				? (newSquares = {
-						...newSquares,
-						[key]: {
-							background:
-								"radial-gradient(closest-side, #97aef3 80%, transparent 40%)",
-						},
-				  })
-				: (newSquares = {
-						...newSquares,
-						[key]: {
-							background:
-								"radial-gradient(closest-side, #97aef3 30%, transparent 40%)",
-						},
-				  });
-		});
-		setOptionSquares(newSquares);
+		else{return false}
 	};
+
+	// const handleClick = (square:Square)=>{
+	// 	if(!isGameStarted){
+	// 		let piece={type:'', color:''};
+	// 		socket.emit('get_piece', square, (data:any)=>{
+	// 			piece = data;
+	// 		})
+	// 		console.log('piece',piece);
+	// 		if((props.color==='white' && piece.color==='w') || (props.color==='black' && piece.color==='b')){
+	// 			sendMove(sourceSquare, square, piece.type);
+	// 		}
+
+	// 		sourceSquare=square;
+	// 		let moves:any = [];
+	// 		socket.emit('get_moves', {square: square, verbose: true}, (data:any)=>{
+	// 			moves = data;
+	// 		})
+	// 		if (moves.length === 0) {
+	// 			setOptionSquares({});
+	// 			return false;
+	// 		}
+	// 		let newSquares = {};
+	// 		moves.map((move:any) => {
+	// 			const key = move.to;
+	// 			newSquares = {
+	// 						...newSquares,
+	// 						[key]: {
+	// 							background:
+	// 								"radial-gradient(closest-side, #97aef3 30%, transparent 40%)",
+	// 						},
+	// 					};
+	// 		});
+	// 		setOptionSquares(newSquares);
+	// 	}
+	// }
+
+
+
+	// const handleClick = (square: Square) => {
+	// 	try {
+	// 		const move = chess.move({ from: sourceSquare, to: square });
+	// 		setOptionSquares({});
+	// 		if (chess.isGameOver()) {
+	// 			gameOver = true;
+	// 			if (
+	// 				chess.isThreefoldRepetition() ||
+	// 				chess.isStalemate() ||
+	// 				chess.isInsufficientMaterial()
+	// 			) {
+	// 				result = "draw";
+	// 			}
+	// 			if (chess.isCheckmate()) {
+	// 				chess.turn() === "b" ? (result = "white") : (result = "black");
+	// 			}
+	// 		}
+	// 		dispatch(
+	// 			setGameState({
+	// 				position: chess.fen(),
+	// 				pgn: chess.pgn(),
+	// 				isGameOver: gameOver,
+	// 				result: result,
+	// 			})
+	// 		);
+	// 		sendMove(move);
+	// 		return true;
+	// 	} catch (e) {}
+	// 	sourceSquare = square;
+	// 	const moves = chess.moves({ square: square, verbose: true });
+	// 	if (moves.length === 0) {
+	// 		setOptionSquares({});
+	// 		return false;
+	// 	}
+	// 	let newSquares = {};
+	// 	moves.map((move) => {
+	// 		const key = move.to;
+	// 		chess.get(key)
+	// 			? (newSquares = { 
+	// 					...newSquares,
+	// 					[key]: {
+	// 						background:
+	// 							"radial-gradient(closest-side, #97aef3 80%, transparent 40%)",
+	// 					},
+	// 			  })
+	// 			: (newSquares = {
+	// 					...newSquares,
+	// 					[key]: {
+	// 						background:
+	// 							"radial-gradient(closest-side, #97aef3 30%, transparent 40%)",
+	// 					},
+	// 			  });
+	// 	});
+	// 	setOptionSquares(newSquares);
+	// };
 
 	return (
 		<Chessboard
 			position={position}
 			onPieceDrop={handleDrop}
 			boardWidth={boardWidth}
-			onSquareClick={handleClick}
+			// onSquareClick={handleClick}
 			customDarkSquareStyle={{ backgroundColor: "#B7C0D8" }}
 			customLightSquareStyle={{ backgroundColor: "#E8EDF9" }}
 			customSquareStyles={{ ...optionSquares }}

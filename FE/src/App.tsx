@@ -16,6 +16,12 @@ import PlayOnline from './pages/PlayOnline';
 import PlayComputer from './pages/PlayComputer';
 import StandardGame from './Games/StandardGame';
 import StandardBotGame from './Games/StandardBotGame';
+import PassAndPlay from './pages/PassAndPlay';
+import Play3Check from './pages/Play3Check';
+import PlayHandBrain from './pages/PlayHandBrain';
+import PlayAntiChess from './pages/PlayAntiChess';
+import PlayBlindfold from './pages/PlayBlindfold';
+import BlindfoldGame from './Games/BlindfoldGame';
 
 function App() {
   const theme = useTheme();
@@ -37,14 +43,26 @@ function App() {
           {/* <img src={require('./images/bachground.png')}></img> */}
           <Routes>
             <Route path="/" element={<Home/>}/>
+
             <Route path="/play">
               <Route path="" element={<Play/>}/>
               <Route path="/play/online" element={<PlayOnline/>}/>
               <Route path="/play/computer" element={<PlayComputer/>}/>
+              <Route path="/play/pass-n-play" element={<PassAndPlay/>}/>
               <Route path="/play/online/game" element={<StandardGame/>}/>
               <Route path="/play/computer/game" element={<StandardBotGame/>}/>
             </Route>
-            <Route path="/variants" element={<Variants/>}/>
+
+            <Route path="/variants">
+              <Route path="" element={<Variants/>}/>
+              <Route path="/variants/blindfold" element={<PlayBlindfold/>}/>
+              <Route path="/variants/blindfold/game" element={<BlindfoldGame/>}/>
+              <Route path="/variants/3-check-chess" element={<Play3Check/>}/>
+              <Route path="/variants/hand-and-brain" element={<PlayHandBrain/>}/>
+              <Route path="/variants/antichess" element={<PlayAntiChess/>}/>
+            </Route>
+
+
             <Route path="/puzzles" element={<Puzzles/>}/>
             <Route path="/leaderboard" element={<LeaderboardPage/>}/>
             <Route path="/friends" element={<FriendsPage/>}/>

@@ -20,6 +20,14 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.board-img{
+  background-image: url(../src/images/board.png);
+  margin-right: 100px;
+  background-repeat: no-repeat;
+  background-size:cover;
+}
+
 .activeItem{
   background-color: #222226;
 }
@@ -49,4 +57,10 @@ code {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
