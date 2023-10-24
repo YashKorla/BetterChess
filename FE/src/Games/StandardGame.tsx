@@ -14,8 +14,8 @@ const StandardGame = () => {
 	const opponent = location.state.color === "white" ? "black" : "white";
 	const [isGameStarted, setIsGameStarted]=useState(false);
 
-	socket.on('start_game', (data)=>{
-		setIsGameStarted(data.gameStarted);
+	socket.on('start_game', ()=>{
+		setIsGameStarted(true);
 	})
 	
 	return (
@@ -49,6 +49,7 @@ const StandardGame = () => {
 					rating={500}
 					expiryTimestamp={time}
 					player={opponent}
+					room={location.state.room}
 				/>
 
 				<StandardOnlineBoard
@@ -62,6 +63,7 @@ const StandardGame = () => {
 					rating={500}
 					expiryTimestamp={time}
 					player={location.state.color}
+					room={location.state.room}
 				/>
 			</Box>
 			<GameControls color={location.state.color} room={location.state.room}/>

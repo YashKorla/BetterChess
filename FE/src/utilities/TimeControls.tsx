@@ -3,7 +3,7 @@ import { useTheme, styled, Box, Typography, Button, TextField } from '@mui/mater
 import { socket } from '../socket';
 import { useNavigate } from 'react-router-dom';
 
-const height = (window.innerHeight-120)*80/100;
+const height = (window.innerHeight-120)*90/100;
 
 const TimeControls = (props:{variant:string}) => {
     const [room,setRoom] = React.useState<number|undefined>(undefined)
@@ -64,7 +64,7 @@ const TimeControls = (props:{variant:string}) => {
             <InnerBox>
                 <Box sx={{width:'100%',height:'25%'}}>
                     <Typography variant='h3'>Bullet</Typography>
-                    <Box marginTop={2} marginBottom={2} sx={{display:'flex', justifyContent:'space-between',height:'50%'}}>
+                    <Box marginTop={1} marginBottom={1} sx={{display:'flex', justifyContent:'space-between',height:'50%'}}>
                         <Button 
                             disabled={isDisabled[0]}
                             color='primary' 
@@ -80,15 +80,15 @@ const TimeControls = (props:{variant:string}) => {
                 </Box>
                 <Box sx={{ width:'100%',height:'25%' }}>
                     <Typography variant='h3'>Blitz</Typography>
-                    <Box marginTop={2} marginBottom={2} sx={{display:'flex', justifyContent:'space-between',height:'50%'}}>
+                    <Box marginTop={1} marginBottom={1} sx={{display:'flex', justifyContent:'space-between',height:'50%'}}>
                         <Button disabled={isDisabled[3]} color='primary' variant='contained' sx={{width:'32%'}} value={3} onClick={(e)=>{handleTimeChange(3,e.currentTarget.value)}}><Typography>3 min</Typography></Button>
                         <Button disabled={isDisabled[4]} color='primary' variant='contained' sx={{width:'32%'}} value={5} onClick={(e)=>{handleTimeChange(4,e.currentTarget.value)}}><Typography>5 min</Typography></Button>
                         <Button disabled={isDisabled[5]} color='primary' variant='contained' sx={{width:'32%'}} value={7} onClick={(e)=>{handleTimeChange(5,e.currentTarget.value)}}><Typography>7 min</Typography></Button>
                     </Box>
                 </Box>
-                <Box sx={{ width:'100%',height:'25%' }}>
+                <Box sx={{ width:'100%',height:'25%'}}>
                     <Typography variant='h3'>Rapid</Typography>
-                    <Box marginTop={2} marginBottom={2} sx={{display:'flex', justifyContent:'space-between',height:'50%'}}>
+                    <Box marginTop={1} marginBottom={1} sx={{display:'flex', justifyContent:'space-between',height:'50%'}}>
                         <Button disabled={isDisabled[6]} color='primary' variant='contained' sx={{width:'32%'}} value={10} onClick={(e)=>{handleTimeChange(6,e.currentTarget.value)}}><Typography>10 min</Typography></Button>
                         <Button disabled={isDisabled[7]} color='primary' variant='contained' sx={{width:'32%'}} value={15} onClick={(e)=>{handleTimeChange(7,e.currentTarget.value)}}><Typography>15 min</Typography></Button>
                         <Button disabled={isDisabled[8]} color='primary' variant='contained' sx={{width:'32%'}} value={20} onClick={(e)=>{handleTimeChange(8,e.currentTarget.value)}}><Typography>20 min</Typography></Button>
@@ -96,7 +96,7 @@ const TimeControls = (props:{variant:string}) => {
                 </Box>
                 <Box sx={{ width:'100%',height:'25%' }}>
                     <Typography variant='h3'>Enter Room</Typography>
-                    <Box marginTop={2} marginBottom={2} sx={{display:'flex', justifyContent:'center',height:'50%'}}>
+                    <Box marginTop={1} marginBottom={1} sx={{display:'flex', justifyContent:'center',height:'50%'}}>
                         <TextField 
                             autoFocus
                             id='roomInput'
@@ -108,6 +108,7 @@ const TimeControls = (props:{variant:string}) => {
                             type='number'
                             value={room}
                             onChange={handleRoomInput}
+                            inputProps={{sx:{height:'100%'}}}
                         />
                     </Box>
                 </Box>

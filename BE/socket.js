@@ -10,7 +10,7 @@ require("dotenv").config();
 const app = express();
 app.use(cors()); 
 // app.use(express.json());
-// const port = process.env.SOCKET_PORT || 7000;
+const port = process.env.SOCKET_PORT || 7000;
 const server = http.createServer(app);
 
 const chess = new Chess();
@@ -129,8 +129,8 @@ io.on("connection", (socket) => {
 
 instrument(io, {auth: false});
 
-server.listen(7000, (err) => {
+server.listen(port, (err) => {
 	if (err) throw err;
-	console.log(`Listening on port 7000`);
+	console.log(`Listening on port ${port}`);
 });
-  
+   

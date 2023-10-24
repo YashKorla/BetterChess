@@ -49,11 +49,12 @@ const BlindfoldGame = () => {
 					rating={500}
 					expiryTimestamp={time}
 					player={opponent}
+					room={location.state.room}
 				/>
 
 				<BlindfoldBoard
 					color={location.state.color}
-					room={location.state.room}
+					room={location.state.room} 
 				/>
 
 				<Timer
@@ -62,6 +63,7 @@ const BlindfoldGame = () => {
 					rating={500}
 					expiryTimestamp={time}
 					player={location.state.color}
+					room={location.state.room}
 				/>
 			</Box>
 			<GameControls color={location.state.color} room={location.state.room}/>

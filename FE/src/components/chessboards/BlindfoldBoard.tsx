@@ -10,7 +10,7 @@ const BlindfoldBoard = (props:any) => {
     const [showBoard, setShowBoard]=useState(false);
     const [position, setPosition]= useState('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1 ')
 
-    const moveFeed = props.color==='black'? "White's last move: " : "Black's's last move: ";
+    const moveFeed = props.color==='black'? "White's last move: " : "Black's last move: ";
     const [oppMove, setOppMove]= useState('');  
     const [move, setMove]= useState('');
     const [helperText, setHelperText]= useState('');
