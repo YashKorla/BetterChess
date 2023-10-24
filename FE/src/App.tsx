@@ -22,6 +22,7 @@ import PlayHandBrain from './pages/PlayHandBrain';
 import PlayAntiChess from './pages/PlayAntiChess';
 import PlayBlindfold from './pages/PlayBlindfold';
 import BlindfoldGame from './Games/BlindfoldGame';
+import ThreeCheckGame from './Games/ThreeCheckGame';
 
 function App() {
   const theme = useTheme();
@@ -55,9 +56,13 @@ function App() {
 
             <Route path="/variants">
               <Route path="" element={<Variants/>}/>
+
               <Route path="/variants/blindfold" element={<PlayBlindfold/>}/>
               <Route path="/variants/blindfold/game" element={<BlindfoldGame/>}/>
+
               <Route path="/variants/3-check-chess" element={<Play3Check/>}/>
+              <Route path="/variants/3-check-chess/game" element={<ThreeCheckGame/>}/>
+
               <Route path="/variants/hand-and-brain" element={<PlayHandBrain/>}/>
               <Route path="/variants/antichess" element={<PlayAntiChess/>}/>
             </Route>
