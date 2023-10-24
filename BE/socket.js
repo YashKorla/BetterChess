@@ -9,7 +9,7 @@ require("dotenv").config();
 
 const app = express();
 app.use(cors()); 
-// app.use(express.json());
+// app.use(express.json()); 
 const port = process.env.SOCKET_PORT || 7000;
 const server = http.createServer(app);
 
@@ -59,7 +59,7 @@ io.on("connection", (socket) => {
 		try{
 			chess.move({from: data.source, to: data.target, promotion: data.piece[1].toLowerCase()}) 
 			const p = chess.fen();
-			cb({position: p, success: true}); 
+			cb({position: p, success: true, isCheck: chess.inCheck()});   
 			socket.to(data.room).emit('recieve_move', p);  
 			io.in(data.room).emit('toggle_timer', chess.turn()); //chess.turn() returns 'w' or 'b'
 			io.in(data.room).emit('recieve_pgn', chess.pgn());
