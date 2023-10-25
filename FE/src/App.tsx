@@ -23,6 +23,7 @@ import PlayAntiChess from './pages/PlayAntiChess';
 import PlayBlindfold from './pages/PlayBlindfold';
 import BlindfoldGame from './Games/BlindfoldGame';
 import ThreeCheckGame from './Games/ThreeCheckGame';
+import PuzzleGame from './Games/PuzzleGame';
 
 function App() {
   const theme = useTheme();
@@ -69,6 +70,8 @@ function App() {
 
 
             <Route path="/puzzles" element={<Puzzles/>}/>
+            <Route path="/puzzles/game" element={<PuzzleGame/>}/>
+
             <Route path="/leaderboard" element={<LeaderboardPage/>}/>
             <Route path="/friends" element={<FriendsPage/>}/>
             <Route path="/my-account" element={<MyAccount/>}/>

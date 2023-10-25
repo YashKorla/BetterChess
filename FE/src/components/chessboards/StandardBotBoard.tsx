@@ -26,7 +26,7 @@ const StandardBotBoard = (props:any)=>{
     function findBestMove() {
         engine.evaluatePosition(chess.fen(), props.depth);
     
-        engine.onMessage(({ bestMove }) => {
+        engine.onMessage(({bestMove}) => {
         if (bestMove) {
             try{
                 chess.move(bestMove);
