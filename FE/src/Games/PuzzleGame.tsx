@@ -1,12 +1,12 @@
 import React from "react";
 import { Box, CircularProgress, Typography, Button} from "@mui/material";
 import PuzzleBoard from "../components/chessboards/PuzzleBoard";
-import { styled, useTheme} from "@mui/system";
-import { useTimer } from "react-timer-hook";
+import { useTheme} from "@mui/system";
 import { useAppDispatch, useAppSelector } from "../app-state/hooks";
 import PuzzleScore from "../utilities/PuzzleScore";
 import { useLocation } from "react-router-dom";
 import { closeScoreModal } from "../app-state/features/puzzleSlice";
+import PuzzleTimer from "../utilities/PuzzleTimer";
 
 const PuzzleGame = () => {
 	const location = useLocation();
@@ -20,7 +20,6 @@ const PuzzleGame = () => {
     const theme = useTheme();
 
     timeSelected ? time.setSeconds(time.getSeconds() + timeSelected * 60) : time.setSeconds(time.getSeconds() + 5 * 60);
-    const timer = useTimer({ expiryTimestamp:time, autoStart:false, onExpire: () => {} });
 
 	const open = useAppSelector((state)=>{
 		return state.puzzle.toClose;
@@ -28,18 +27,6 @@ const PuzzleGame = () => {
 	const score = useAppSelector((state)=>{
 		return state.puzzle.scoreCounter;
 	});
-
-    const TimerBox=styled(Box)({
-        width:'400px',
-        height:'75px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent:'center',
-        padding:'15px',
-        backgroundColor:theme.palette.primary.dark,
-        borderRadius:'10px',
-        margin:'15px 0',
-    })
 	
 	return (
 		<Box
@@ -86,9 +73,8 @@ const PuzzleGame = () => {
 					<CircularProgress size={48}/>
 				</Box>
 				{!showBuffer && <PuzzleBoard/>}
-                {timeSelected && <TimerBox>
-                    <Typography variant="h3">{timer.minutes}:{timer.seconds}</Typography>
-                </TimerBox>}
+                {timeSelected && 
+				<PuzzleTimer time={time}/>}
 			</Box>
 			<PuzzleScore/>
 		</Box>

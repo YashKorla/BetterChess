@@ -12,6 +12,7 @@ import styled from '@emotion/styled';
 import {useTheme} from '@mui/material/styles';
 import { NavLink, useLocation } from 'react-router-dom';
 import MenuBox from './MenuBox';
+import { useAppSelector } from '../../app-state/hooks';
 
 const navitems=[
   {label:'Play',route:'/play'},
@@ -23,6 +24,9 @@ const navitems=[
 
 const Navbar = () => {
   const theme = useTheme();
+  const isLoggedIn = useAppSelector((state)=>{
+    return state.userPreference.isLoggedIn;
+  })
 
   const ListText=styled(Typography)({
     fontSize: '24px',
@@ -102,7 +106,7 @@ const Navbar = () => {
         </List>
 
       
-        <MenuBox></MenuBox>
+        {isLoggedIn && <MenuBox></MenuBox>}
           
         
       

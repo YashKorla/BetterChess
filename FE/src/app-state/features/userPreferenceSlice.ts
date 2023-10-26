@@ -27,6 +27,7 @@ type logindatatype={
   }
 }
 interface UserPreferences {
+  isLoggedIn:boolean;
   isloading: boolean,
   user:user
   loginerror: string,
@@ -34,6 +35,7 @@ interface UserPreferences {
 }
 
 const initialState:UserPreferences= {
+  isLoggedIn: false,
   isloading:false,
   loginerror:'',
   registererror:'', 
@@ -80,7 +82,7 @@ const userPreferenceSlice = createSlice({
         .addCase(registerUser.fulfilled, (state, action) => {
           console.log(action.payload)
           state.isloading = false;
-          
+           
           
           state.registererror = action.payload
         })
@@ -102,6 +104,7 @@ const userPreferenceSlice = createSlice({
             state.user.username= action.payload.username;
             state.user.rating= action.payload.rating;
             state.user.password= action.payload.password;
+            state.isLoggedIn=true;
             
             state.loginerror="Logged in Successfully"
             console.log(state.user)
