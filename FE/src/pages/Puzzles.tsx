@@ -5,6 +5,9 @@ import styled from '@emotion/styled';
 import theme from '../theme';
 import IconButton from '@mui/material/IconButton';
 import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRightOutlined';
+import { useAppDispatch } from '../app-state/hooks';
+import {fetchOnePuzzle, fetchPuzzles} from '../app-state/features/puzzleSlice';
+import { useNavigate } from 'react-router-dom';
 
 const FormatBox =styled(Box)({
     backgroundColor:`${theme.palette.primary.main}`,
@@ -66,6 +69,20 @@ const IconStyled=styled(KeyboardArrowRightOutlinedIcon )({
     borderRadius:'80px'
 })
 const Puzzles = ()=>{
+    const dispatch = useAppDispatch()
+    const navigate = useNavigate();
+
+    const data = {
+        puzzle_rating:{
+            rating: 500,
+            start: true,
+        }
+    }
+    const PlayPuzzle = (e:any,time:number|false)=>{
+        dispatch(fetchPuzzles(data));
+        navigate('/puzzles/game',{state:{time:time}})
+    }
+
     return(
 
         <MainBox>
@@ -73,7 +90,11 @@ const Puzzles = ()=>{
             <FormatBox>
                 <Box sx={{display:'flex',justifyContent: 'space-between',}}>
                 <FormatHeader>3 minutes</FormatHeader>
-                <IconButton><IconStyled/></IconButton>
+                <IconButton
+                    onClick={(e)=>{PlayPuzzle(e,3)}}
+                >
+                    <IconStyled/>
+                </IconButton>
                 
                 </Box>
                 <Formatbest>Best: 15</Formatbest>
@@ -82,7 +103,7 @@ const Puzzles = ()=>{
             <FormatBox>
                 <Box sx={{display:'flex',justifyContent: 'space-between',}}>
                     <FormatHeader>5 minutes</FormatHeader>
-                    <IconButton><IconStyled/></IconButton>
+                    <IconButton onClick={(e)=>{PlayPuzzle(e,5)}}><IconStyled/></IconButton>
                     
                 </Box>
                 <Formatbest>Best: 30</Formatbest>
@@ -91,7 +112,7 @@ const Puzzles = ()=>{
             <FormatBox>
                 <Box sx={{display:'flex',justifyContent: 'space-between',}}>
                     <FormatHeader>Survival</FormatHeader>
-                    <IconButton><IconStyled/></IconButton>
+                    <IconButton onClick={(e)=>{PlayPuzzle(e,false)}}><IconStyled/></IconButton>
                     
                 </Box>
                 <Formatbest>Best: 55</Formatbest>

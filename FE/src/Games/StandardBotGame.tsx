@@ -13,7 +13,7 @@ const StandardBotGame = () => {
             <Box sx={{position:'relative',marginRight:'100px'}}>
                 <ResultModal/>  
                 <StandardBotBoard
-                    depth={location.state}
+                    depth={location.state.depth}
                     color="white"
                 />
             </Box>
