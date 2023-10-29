@@ -38,32 +38,6 @@ router.route("/get-puzzle").post((req, res) => {
 					.catch((err) => {
 						res.status(400).json(err.message);
 					});
-
-				// Puzzles.findOne({ rating: { $gte: rating - 50, $lte: rating + 50 } })
-				// 	.skip(random)
-				// 	.then((result) => {
-				// 		const result_object = {
-				// 			fen: result.fen,
-				// 			moves: result.moves,
-				// 			rating: result.rating,
-				// 		};
-				// 		puzzles.push(result_object);
-				// 		console.log("2");
-				// 	})
-				// 	.catch((err) => res.status(400).json("Error: " + err.message));
-
-				// Puzzles.findOne({ rating: { $gte: rating - 50, $lte: rating + 50 } })
-				// 	.skip(random)
-				// 	.then((result) => {
-				// 		const result_object = {
-				// 			fen: result.fen,
-				// 			moves: result.moves,
-				// 			rating: result.rating,
-				// 		};
-				// 		puzzles.push(result_object);
-				// 		console.log("3");
-				// 	})
-				// 	.catch((err) => res.status(400).json("Error: " + err.message));
 			})
 			.catch((err) => res.status(400).json("Error: " + err.message));
 	} else {
@@ -79,6 +53,7 @@ router.route("/get-puzzle").post((req, res) => {
 							moves: result.moves,
 							rating: result.rating,
 						};
+						console.log(result_object);
 						res.status(200).json(result_object);
 					})
 					.catch((err) => res.status(400).json("Error: " + err.message));

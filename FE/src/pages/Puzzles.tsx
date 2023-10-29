@@ -74,7 +74,7 @@ const Puzzles = ()=>{
 
     const data = {
         puzzle_rating:{
-            rating: 500,
+            rating: 550,
             start: true,
         }
     }

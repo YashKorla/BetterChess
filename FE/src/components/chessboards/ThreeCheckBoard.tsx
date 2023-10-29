@@ -9,7 +9,7 @@ const boardWidth = (window.innerHeight - 120)* 80/100;
 const ThreeCheckBoard = (props: any) => {
 
 	const [position, setPosition]= useState('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1 ')
-	const [optionSquares, setOptionSquares] = useState({});
+	const [optionSquares, setOptionSquares] = useState({}); 
     const [checks,setChecks]=useState(0);
 	let isGameStarted = false;
 
@@ -21,8 +21,8 @@ const ThreeCheckBoard = (props: any) => {
 		let wasMoveSuccessful = false;
 		socket.emit("send_move", { source: source, target:target, piece:piece, room: props.room }, (data:any)=>{
 			setPosition(data.position);
-            setChecks((prev:number)=>{return prev+1})
-            checks === 3 && socket.emit('set_winner', {winner: props.color, room: props.room})
+			data.isCheck ? setChecks((prev:number)=>{return prev+1}) : setChecks((prev:number)=>{return prev});
+			if(checks === 2){socket.emit('set_winner', {winner: props.color, room: props.room})}
 			wasMoveSuccessful = data.success;
 		});
 		return wasMoveSuccessful

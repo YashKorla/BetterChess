@@ -11,6 +11,7 @@ interface puzzleReducer {
     scoreCounter: number;
     puzzleCounter: number;
     toClose: boolean,
+    isTimerRunning: boolean;
     puzzleState:{
         puzzles:puzzle[];
         trackPuzzles: {rating: number, solved: boolean}[];
@@ -51,6 +52,7 @@ const initialState:puzzleReducer = {
     scoreCounter:0,
     puzzleCounter:0,
     toClose: false,
+    isTimerRunning: true,
     puzzleState:{
         puzzles:[],
         trackPuzzles:[],
@@ -73,6 +75,7 @@ const puzzleSlice = createSlice({
         },
         quitPuzzles(state){
             state.toClose= true;
+            state.isTimerRunning=false;
         }
     },
     extraReducers: builder => {

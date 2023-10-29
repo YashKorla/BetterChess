@@ -21,7 +21,7 @@ const PuzzleBoard = () => {
     })
 
     const [position,setPosition] = useState('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1 ');
-    const [currentRating,setCurrentRating] = useState(600);
+    const [currentRating,setCurrentRating] = useState(650);
     const [orientation,setOrientation] = useState<BoardOrientation>('white');
 
     const solution = puzzle.moves.split(" ");
@@ -42,7 +42,7 @@ const PuzzleBoard = () => {
 		
 	const handleDrop = (source: Square, target: Square, piece: Piece)=>{
         try{
-            chess.move({from:source,to:target,promotion:piece});
+            chess.move({from:source,to:target,promotion:piece[0].toLowerCase()});
             moveCount++;
             setPosition(chess.fen());
             
